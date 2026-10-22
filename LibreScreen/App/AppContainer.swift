@@ -27,6 +27,7 @@ final class AppContainer {
     let hub: HubViewModel
     let permissionsViewModel: PermissionsViewModel
     let cameraCoordinator: CameraSessionCoordinator
+    let hotkeys: HotkeyCoordinator
 
     @ObservationIgnored
     private(set) lazy var windows = WindowCoordinator(container: self)
@@ -42,7 +43,8 @@ final class AppContainer {
         thumbnails: ThumbnailLoader,
         camera: any CameraService,
         screenshots: any Screenshotting,
-        encoder: any ImageEncoding
+        encoder: any ImageEncoding,
+        hotkeyRegistrar: any HotkeyRegistering
     ) {
         self.settings = settings
         self.permissions = permissions
@@ -77,6 +79,7 @@ final class AppContainer {
             thumbnails: thumbnails
         )
         permissionsViewModel = PermissionsViewModel(permissions: permissions)
+        hotkeys = HotkeyCoordinator(registrar: hotkeyRegistrar, settings: settings)
         cameraCoordinator = CameraSessionCoordinator(
             camera: camera,
             settings: settings,
@@ -112,7 +115,8 @@ final class AppContainer {
             thumbnails: ThumbnailLoader(),
             camera: camera,
             screenshots: ScreenshotService(),
-            encoder: ImageFileWriter()
+            encoder: ImageFileWriter(),
+            hotkeyRegistrar: CarbonHotkeyService()
         )
     }
 }

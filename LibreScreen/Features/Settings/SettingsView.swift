@@ -17,6 +17,8 @@ struct SettingsView: View {
                 .tabItem { Label("Câmera", systemImage: "video") }
             ScreenshotSettingsTab()
                 .tabItem { Label("Capturas", systemImage: "camera.viewfinder") }
+            HotkeysSettingsTab()
+                .tabItem { Label("Atalhos", systemImage: "keyboard") }
             AboutTab()
                 .tabItem { Label("Sobre", systemImage: "info.circle") }
         }

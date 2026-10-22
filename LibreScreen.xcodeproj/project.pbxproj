@@ -26,6 +26,7 @@
 		2A0FC97C0652EA9D7CD5D770 /* CameraCapturing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED427288BA8EADB14825ADED /* CameraCapturing.swift */; };
 		2C253232F55C1BF111A818E1 /* Screenshotting.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC510628CD00162C17E0F848 /* Screenshotting.swift */; };
 		2EE79302478E1297E55784A8 /* BackgroundBlurProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B3E011CA96A83C567847B /* BackgroundBlurProcessor.swift */; };
+		2F5816BC16C256815E9DF76D /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7716DB967772BBE4E2DB372 /* AppCommands.swift */; };
 		36B63B961274A819C255692F /* AnnotationRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC5202CE462DF49CA05D6F /* AnnotationRenderer.swift */; };
 		39656FC8E1F25C8714B5A837 /* ModePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE56928878414A5DAEAD6CCD /* ModePicker.swift */; };
 		3E796E1EA1189C140A7F0BB1 /* CountdownPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2859DF61666F8A0925D595F /* CountdownPanel.swift */; };
@@ -40,6 +41,7 @@
 		64770DF2C04A2969CA1B379D /* MicrophoneCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB080EF6973E2C6E9BE403 /* MicrophoneCaptureService.swift */; };
 		66549DDF0B6B61CF3B7963F9 /* CameraOverlaySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875ED3197FDDEF612E50C0B4 /* CameraOverlaySettingsTests.swift */; };
 		6B738CDD2E5167B7FC7AC496 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4890C5A6537B58F2FDC03FA /* PermissionsView.swift */; };
+		70A0FCE8BE88C1980FE1E11E /* HotkeysSettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DF65F886C5A92856F04DCA /* HotkeysSettingsTab.swift */; };
 		72FCBFDAB6F7E55C2567AEE5 /* ImageFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E6D7BAC0E591B730B1D91 /* ImageFileWriter.swift */; };
 		7540AB4E6A779A2CA6B4A59B /* ScreenshotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950075D40126DA4071C43378 /* ScreenshotSettings.swift */; };
 		7589C6CEA726466558AACC9B /* ThumbnailLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27F1E5E56D17A3F32C0DD3B /* ThumbnailLoader.swift */; };
@@ -77,6 +79,7 @@
 		C484E0245B5968D613DCC4D0 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1ECDAC6119C1050DADF9180 /* SettingsStore.swift */; };
 		C4AE5E61A0BF0C0395BCDF6D /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB43B825D62A9866A15234DF /* Annotation.swift */; };
 		C518585017652046D9F2EF51 /* CaptureSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE17BF3D629BBC51397BDD /* CaptureSource.swift */; };
+		C63A1F825460F31B4C4644F3 /* HotkeyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D88F681AAB9D44C9273757 /* HotkeyCoordinator.swift */; };
 		CADF6E841E7C5EEC4BA2253D /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4180E6D1F944B296D8EAD1 /* GeneralSettings.swift */; };
 		CAF36DE9C5CB7EAC8CE744F2 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */; };
 		D1BC6341EE3A6925786C3C57 /* FrameCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91FFE26939F3AEF307B4CAB /* FrameCompositor.swift */; };
@@ -89,6 +92,8 @@
 		D955C622A3C9273E9C593803 /* Frames.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C11B36CC44E432BFA57A7 /* Frames.swift */; };
 		DEA65FC36893F72C68E340FF /* EditorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7557C59289F8902642C717E /* EditorWindowController.swift */; };
 		E2C87572A841DC5CD8CC8042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDF963F7F5E21125D2262A92 /* Assets.xcassets */; };
+		E874F86CF7A7617A994B47F1 /* CarbonHotkeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BA6C8BD2F95963201E589F /* CarbonHotkeyService.swift */; };
+		E89D6C5FB6C6371499C8D3C0 /* HotkeyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4012BAD337C01836E663E838 /* HotkeyRecorder.swift */; };
 		ECF294D09A7CC1BC5BB27CAC /* CaptureCoordinatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFAA75755326D72A67A886 /* CaptureCoordinatesTests.swift */; };
 		F25A519A9591321008FC1572 /* PermissionsChecking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5BEF13A74BEEEE276C69C7 /* PermissionsChecking.swift */; };
 		F3DB05EE4731F2EC3E31FC3E /* CaptureCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F9E1FC0125C23330B203F /* CaptureCoordinates.swift */; };
@@ -117,6 +122,7 @@
 		0427D671FDC213EA515D80BA /* HotkeyRegistering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRegistering.swift; sourceTree = "<group>"; };
 		04909E18EE88A3CD7F4164D0 /* FileNamingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNamingTests.swift; sourceTree = "<group>"; };
 		06AC6724DAFB784AE436E4F9 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		09D88F681AAB9D44C9273757 /* HotkeyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyCoordinator.swift; sourceTree = "<group>"; };
 		0A5B3C84710CD4DB64E0D6D1 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		0A8B5292AE7FAF0DCC3A9735 /* CaptureItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureItem.swift; sourceTree = "<group>"; };
 		0C716086EE3FAF761232EE01 /* AppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsTests.swift; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 		2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		32EC5202CE462DF49CA05D6F /* AnnotationRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationRenderer.swift; sourceTree = "<group>"; };
 		3D6E5094D0ADF713E5A1A9C3 /* CaptureThumbnailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureThumbnailPanel.swift; sourceTree = "<group>"; };
+		4012BAD337C01836E663E838 /* HotkeyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRecorder.swift; sourceTree = "<group>"; };
 		4061389F683CE32002E8C758 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		456FAB40D49A9E31C8736FD1 /* CMSampleBuffer+Retiming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Retiming.swift"; sourceTree = "<group>"; };
 		46577181D8E77BB1F7F81FA2 /* CameraCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureService.swift; sourceTree = "<group>"; };
@@ -146,7 +153,9 @@
 		536A6BFBF26022CFC0D01B50 /* DebugSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSnapshots.swift; sourceTree = "<group>"; };
 		5D3A4EA128289B2B6CF7E84B /* FrameClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameClock.swift; sourceTree = "<group>"; };
 		5EFE17BF3D629BBC51397BDD /* CaptureSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSource.swift; sourceTree = "<group>"; };
+		64DF65F886C5A92856F04DCA /* HotkeysSettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeysSettingsTab.swift; sourceTree = "<group>"; };
 		666F6852A8CFF74C45996133 /* ContentFilterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFilterFactory.swift; sourceTree = "<group>"; };
+		67BA6C8BD2F95963201E589F /* CarbonHotkeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonHotkeyService.swift; sourceTree = "<group>"; };
 		67E76CAC7B85003AA5F1CB75 /* CaptureItemActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureItemActions.swift; sourceTree = "<group>"; };
 		69AB11DAE70103011480B0AD /* RecordingHUDPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingHUDPanel.swift; sourceTree = "<group>"; };
 		6C4180E6D1F944B296D8EAD1 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
@@ -208,6 +217,7 @@
 		F2859DF61666F8A0925D595F /* CountdownPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownPanel.swift; sourceTree = "<group>"; };
 		F4254A286CDEEF0531A86C05 /* Hotkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotkey.swift; sourceTree = "<group>"; };
 		F4946FCA979A59D47F722EA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F7716DB967772BBE4E2DB372 /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		F84C11B36CC44E432BFA57A7 /* Frames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frames.swift; sourceTree = "<group>"; };
 		FC7FF4949D71C112816319CA /* AnnotationCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationCanvasView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -216,6 +226,7 @@
 		232BC5A004A068A746CA9B06 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				64DF65F886C5A92856F04DCA /* HotkeysSettingsTab.swift */,
 				E7B5D5D32698861B85886588 /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -293,6 +304,7 @@
 		4F7839197B36D96A30D4FB67 /* Hotkeys */ = {
 			isa = PBXGroup;
 			children = (
+				67BA6C8BD2F95963201E589F /* CarbonHotkeyService.swift */,
 			);
 			path = Hotkeys;
 			sourceTree = "<group>";
@@ -366,6 +378,7 @@
 			children = (
 				2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */,
 				A8635FB989815FD57B2F308E /* GlassSurface.swift */,
+				4012BAD337C01836E663E838 /* HotkeyRecorder.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -425,10 +438,12 @@
 		D514A224F51CC0ABF89E5B80 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				F7716DB967772BBE4E2DB372 /* AppCommands.swift */,
 				06AC6724DAFB784AE436E4F9 /* AppContainer.swift */,
 				F4946FCA979A59D47F722EA8 /* AppDelegate.swift */,
 				4FFE3F7C442A5992DD9490AF /* DebugAutomation.swift */,
 				536A6BFBF26022CFC0D01B50 /* DebugSnapshots.swift */,
+				09D88F681AAB9D44C9273757 /* HotkeyCoordinator.swift */,
 				7D970F25B5B613FEAC4FFCC3 /* LibreScreenApp.swift */,
 				1A944B87F3A03338FFFC4829 /* Logging.swift */,
 				18DE420D0E30F5C974C0F3A0 /* SyntheticCameraSource.swift */,
@@ -676,6 +691,7 @@
 				C4AE5E61A0BF0C0395BCDF6D /* Annotation.swift in Sources */,
 				80952733A6DA6F9E96C190D1 /* AnnotationCanvasView.swift in Sources */,
 				36B63B961274A819C255692F /* AnnotationRenderer.swift in Sources */,
+				2F5816BC16C256815E9DF76D /* AppCommands.swift in Sources */,
 				49B90F9A6409197403E542E6 /* AppContainer.swift in Sources */,
 				D4F4DF5FF33B713557F642EC /* AppDelegate.swift in Sources */,
 				B114491453B46B5A04EB08FD /* AppSettings.swift in Sources */,
@@ -694,6 +710,7 @@
 				007C7A0DB2725262224F2194 /* CaptureStore.swift in Sources */,
 				7B421864248A640BFAB77C96 /* CaptureStoring.swift in Sources */,
 				FA20DBFD0FBE5BD52E1D52C4 /* CaptureThumbnailPanel.swift in Sources */,
+				E874F86CF7A7617A994B47F1 /* CarbonHotkeyService.swift in Sources */,
 				F7D61A2D9757847F3FC29DC1 /* ContentFilterFactory.swift in Sources */,
 				3E796E1EA1189C140A7F0BB1 /* CountdownPanel.swift in Sources */,
 				811CCEEFCC69D25B27346969 /* DebugAutomation.swift in Sources */,
@@ -710,7 +727,10 @@
 				CADF6E841E7C5EEC4BA2253D /* GeneralSettings.swift in Sources */,
 				627CE892C5800B8FAFCBEBF3 /* GlassSurface.swift in Sources */,
 				87840E243C4D11B7ECB99705 /* Hotkey.swift in Sources */,
+				C63A1F825460F31B4C4644F3 /* HotkeyCoordinator.swift in Sources */,
+				E89D6C5FB6C6371499C8D3C0 /* HotkeyRecorder.swift in Sources */,
 				F7EC6BDA169D4724634D504B /* HotkeyRegistering.swift in Sources */,
+				70A0FCE8BE88C1980FE1E11E /* HotkeysSettingsTab.swift in Sources */,
 				15B1A7FBD0D0FE5F1FA1F7CE /* HubView.swift in Sources */,
 				D62B07B43416E55B87D02A13 /* HubViewModel.swift in Sources */,
 				93A7FE1B8D6D6B066AD86433 /* HubWindowController.swift in Sources */,

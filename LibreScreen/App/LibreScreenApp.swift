@@ -21,6 +21,9 @@ struct LibreScreenApp: App {
             SettingsView()
                 .environment(appDelegate.container)
         }
+        .commands {
+            AppCommands(container: appDelegate.container)
+        }
     }
 
     private var menuBarInserted: Binding<Bool> {

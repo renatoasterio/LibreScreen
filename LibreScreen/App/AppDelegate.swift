@@ -31,7 +31,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         container.windows.applyActivationPolicy(showsInDock: container.settings.settings.general.showsInDock)
         container.windows.showHub()
         container.cameraCoordinator.activate()
+        container.hotkeys.activate { [container] action in
+            Task { await Self.perform(action, in: container) }
+        }
         Log.app.info("LibreScreen launched")
+    }
+
+    private static func perform(_ action: HotkeyAction, in container: AppContainer) async {
+        switch action {
+        case .recordDisplay: await container.hub.quickAction(mode: .record, kind: .display)
+        case .recordWindow: await container.hub.quickAction(mode: .record, kind: .window)
+        case .recordRegion: await container.hub.quickAction(mode: .record, kind: .region)
+        case .screenshotDisplay: await container.hub.quickAction(mode: .screenshot, kind: .display)
+        case .screenshotWindow: await container.hub.quickAction(mode: .screenshot, kind: .window)
+        case .screenshotRegion: await container.hub.quickAction(mode: .screenshot, kind: .region)
+        case .stopRecording: await container.recording.stop()
+        case .pauseResumeRecording: await container.recording.togglePause()
+        case .toggleHub: container.windows.toggleHub()
+        }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

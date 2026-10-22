@@ -6,6 +6,7 @@
 import AppKit
 import ScreenCaptureKit
 import SwiftUI
+import Synchronization
 
 /// Developer tool: `LibreScreen -snapshot <directory>` shows every main screen in a real window,
 /// captures it with ScreenCaptureKit (light and dark) and quits. Lets UI changes be reviewed from a
@@ -98,6 +99,30 @@ enum DebugSnapshots {
         return model
     }
 
+    /// Runs `operation` on the main actor and gives up after `timeout`, whichever comes first.
+    private static func firstResult<T: Sendable>(timeout: Duration, _ operation: @escaping @MainActor () async -> T?) async -> T? {
+        await withCheckedContinuation { (continuation: CheckedContinuation<T?, Never>) in
+            let resumed = Mutex(false)
+            let finish: @Sendable (T?) -> Void = { value in
+                let shouldResume = resumed.withLock { already -> Bool in
+                    if already {
+                        return false
+                    }
+                    already = true
+                    return true
+                }
+                if shouldResume {
+                    continuation.resume(returning: value)
+                }
+            }
+            Task { @MainActor in await finish(operation()) }
+            Task {
+                try? await Task.sleep(for: timeout)
+                finish(nil)
+            }
+        }
+    }
+
     private static func capture(_ view: AnyView, appearance: NSAppearance.Name, to url: URL) async {
         let hosting = NSHostingController(rootView: view)
         let window = NSWindow(contentViewController: hosting)
@@ -126,17 +151,13 @@ enum DebugSnapshots {
             configuration.showsCursor = false
             configuration.captureResolution = .best
             let filter = SCContentFilter(desktopIndependentWindow: scWindow)
-            // ScreenCaptureKit can stall when the screen is locked; give up on this screen after a few seconds.
-            let image = try await withThrowingTaskGroup(of: CGImage.self) { group in
-                group.addTask { try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration) }
-                group.addTask {
-                    try await Task.sleep(for: .seconds(8))
-                    throw CancellationError()
-                }
-                let first = try await group.next()
-                group.cancelAll()
-                guard let first else { throw CancellationError() }
-                return first
+            // ScreenCaptureKit stalls while the screen is locked; move on after a few seconds and let the
+            // stalled call finish (or not) on its own, which is fine for a debug tool.
+            guard let image = await firstResult(timeout: .seconds(8), {
+                try? await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+            }) else {
+                Log.app.error("Snapshot timed out (screen locked?)")
+                return
             }
             try ImageFileWriter().write(image, to: url, format: .png, quality: 1)
         } catch {
