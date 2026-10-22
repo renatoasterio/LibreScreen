@@ -1,0 +1,200 @@
+# SwiftLint configuration for LibreScreen.
+# Style is handled by SwiftFormat; SwiftLint focuses on correctness, memory and safety.
+
+included:
+  - LibreScreen
+  - LibreScreenTests
+
+excluded:
+  - LibreScreen.xcodeproj
+  - .build
+  - DerivedData
+
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
+disabled_rules:
+  - todo
+  - trailing_comma
+  - opening_brace          # SwiftFormat owns brace placement
+  - trailing_whitespace    # SwiftFormat owns whitespace
+  - vertical_whitespace
+  - file_header            # SwiftFormat owns the header
+
+opt_in_rules:
+  - array_init
+  - closure_body_length
+  - closure_spacing
+  - collection_alignment
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
+  - convenience_type
+  - discarded_notification_center_observer
+  - discouraged_object_literal
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - enum_case_associated_values_count
+  - explicit_init
+  - fatal_error_message
+  - first_where
+  - flatmap_over_map_reduce
+  - force_unwrapping
+  - identical_operands
+  - implicit_return
+  - joined_default_parameter
+  - last_where
+  - legacy_multiple
+  - legacy_random
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - modifier_order
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - operator_usage_whitespace
+  - overridden_super_call
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - private_over_fileprivate
+  - prohibited_super_call
+  - reduce_into
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - sorted_first_last
+  - static_operator
+  - strict_fileprivate
+  - toggle_bool
+  - unavailable_function
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - weak_delegate
+  - yoda_condition
+
+# --- Severity overrides -----------------------------------------------------
+force_cast: error
+force_try: error
+force_unwrapping: error
+weak_delegate: error
+unowned_variable_capture: error
+discarded_notification_center_observer: error
+notification_center_detachment: error
+untyped_error_in_catch: warning
+
+line_length:
+  warning: 140
+  error: 180
+  ignores_comments: true
+  ignores_urls: true
+  ignores_function_declarations: false
+
+file_length:
+  warning: 500
+  error: 700
+  ignore_comment_only_lines: true
+
+type_body_length:
+  warning: 300
+  error: 400
+
+function_body_length:
+  warning: 60
+  error: 100
+
+closure_body_length:
+  warning: 50
+  error: 100
+
+cyclomatic_complexity:
+  warning: 12
+  error: 20
+  ignores_case_statements: true
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+nesting:
+  type_level: 2
+  function_level: 3
+
+identifier_name:
+  min_length: 2
+  max_length: 50
+  excluded: [id, x, y, w, h, dx, dy, at, to, up, in, on, of, fps, hz, pts, url, os]
+
+type_name:
+  min_length: 3
+  max_length: 50
+
+large_tuple:
+  warning: 3
+  error: 4
+
+# --- Project-specific rules -------------------------------------------------
+custom_rules:
+  no_print:
+    name: "No print()"
+    regex: '^\s*(print|debugPrint|NSLog)\('
+    message: "Use the os.Logger instances in App/Logging.swift instead of print/NSLog."
+    severity: error
+
+  no_process_spawn:
+    name: "No process spawning"
+    regex: '(?<![.\w])(Process\(|NSTask|posix_spawn\(|system\()'
+    message: "LibreScreen never spawns external processes."
+    severity: error
+
+  no_dynamic_code_loading:
+    name: "No dynamic code loading"
+    regex: '\b(dlopen|dlsym|NSBundle\.load|Bundle\(path:.*\)\.load)'
+    message: "Dynamic code loading is forbidden (hardened runtime, supply-chain safety)."
+    severity: error
+
+  no_main_hop_in_infrastructure:
+    name: "No main-queue hops in Infrastructure"
+    included: "LibreScreen/Infrastructure/.*\\.swift"
+    regex: 'DispatchQueue\.main'
+    message: "Infrastructure must not hop to the main queue; surface results via async APIs or @MainActor callbacks."
+    severity: error
+
+  no_timer_scheduled_with_self:
+    name: "Timer.scheduledTimer retains its target"
+    regex: 'Timer\.scheduledTimer\((timeInterval|withTimeInterval):[^\n]*target:\s*self'
+    message: "Timer retains its target strongly. Use DispatchSourceTimer or Timer with a weak-capturing closure."
+    severity: error
+
+  permission_request_outside_service:
+    name: "Permission requests live in PermissionsService"
+    excluded: "LibreScreen/Infrastructure/Permissions/.*\\.swift"
+    regex: '\b(AVCaptureDevice\.requestAccess|CGRequestScreenCaptureAccess)\b'
+    message: "Only PermissionsService may request TCC permissions, and only in response to a user action."
+    severity: error
+
+  no_user_defaults_outside_storage:
+    name: "UserDefaults only in Storage and the composition root"
+    excluded:
+      - "LibreScreen/Infrastructure/Storage/.*\\.swift"
+      - "LibreScreen/App/AppContainer\\.swift"
+    regex: '\bUserDefaults\.'
+    message: "Persist settings through SettingsStoring; direct UserDefaults access is not allowed elsewhere."
+    severity: warning
+
+  no_appkit_in_domain:
+    name: "Domain is framework-free"
+    included: "LibreScreen/Domain/.*\\.swift"
+    regex: '^import (AppKit|SwiftUI|AVFoundation|ScreenCaptureKit|Vision|CoreImage)'
+    message: "Domain must not import UI or capture frameworks. Keep models and protocols pure."
+    severity: error
+
+  escaping_closure_strong_self:
+    name: "Escaping closure captures self strongly"
+    regex: '(Task\s*\{|\.sink\s*\{|DispatchQueue[^\n]*\.async\s*\{|setEventHandler\s*\{)\s*(?!\s*\[(weak|unowned)\s+self\])[^\n]*\bself\.'
+    message: "Capture self weakly in escaping closures unless the lifetime is explicitly bounded (document why with // lifetime: ...)."
+    severity: warning

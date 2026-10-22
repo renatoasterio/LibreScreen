@@ -1,0 +1,896 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		007C7A0DB2725262224F2194 /* CaptureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0469A8FC5F69EA1943EA22A /* CaptureStore.swift */; };
+		00D6AEE8F717723DFBB7A85C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B5D5D32698861B85886588 /* SettingsView.swift */; };
+		03A7728CEADC8A5B28408009 /* OutputLocating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A4D1029676EDE7DCA8EB92 /* OutputLocating.swift */; };
+		059570DADDFCF1314A498267 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4957F4B0A65F75F84D115585 /* Localizable.xcstrings */; };
+		06442F21D25B4A27FDCE0F5D /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D04644780F2D563065EA9F2 /* Permission.swift */; };
+		0F88C5D170D0A120E6DF3B53 /* PermissionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB3DC7FE796CCA0474CE82 /* PermissionsService.swift */; };
+		140EED07B03A07C6EE0EB730 /* ShareableContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CBFD20EEBC1669C56DADC4 /* ShareableContentService.swift */; };
+		15B1A7FBD0D0FE5F1FA1F7CE /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599E7DA01DCFC1EBCBFDEC9 /* HubView.swift */; };
+		1F113B8C04D9135074E1195C /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A944B87F3A03338FFFC4829 /* Logging.swift */; };
+		25D5395939A58FF7A31F374E /* DeviceControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44F589465359AF1154B769A /* DeviceControls.swift */; };
+		29B0800E3F3B433E377EFBEC /* MenuBarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3C546449AF6F835DCC989 /* MenuBarMenuView.swift */; };
+		2A0FC97C0652EA9D7CD5D770 /* CameraCapturing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED427288BA8EADB14825ADED /* CameraCapturing.swift */; };
+		2C253232F55C1BF111A818E1 /* Screenshotting.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC510628CD00162C17E0F848 /* Screenshotting.swift */; };
+		39656FC8E1F25C8714B5A837 /* ModePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE56928878414A5DAEAD6CCD /* ModePicker.swift */; };
+		482166D197B49C786B5D0C1F /* CameraOverlaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C101A415569FB4212E42A29D /* CameraOverlaySettings.swift */; };
+		49B90F9A6409197403E542E6 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AC6724DAFB784AE436E4F9 /* AppContainer.swift */; };
+		5A0043A9A0507779C7DCF001 /* ShareableContentProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FF569A64297111BF57FB9 /* ShareableContentProviding.swift */; };
+		5AEDEB01FE1F796DF13DF2A0 /* PermissionFlagsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338B4BF89D31011E774EEEE /* PermissionFlagsStore.swift */; };
+		627CE892C5800B8FAFCBEBF3 /* GlassSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8635FB989815FD57B2F308E /* GlassSurface.swift */; };
+		66549DDF0B6B61CF3B7963F9 /* CameraOverlaySettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875ED3197FDDEF612E50C0B4 /* CameraOverlaySettingsTests.swift */; };
+		6B738CDD2E5167B7FC7AC496 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4890C5A6537B58F2FDC03FA /* PermissionsView.swift */; };
+		72FCBFDAB6F7E55C2567AEE5 /* ImageFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E6D7BAC0E591B730B1D91 /* ImageFileWriter.swift */; };
+		7540AB4E6A779A2CA6B4A59B /* ScreenshotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950075D40126DA4071C43378 /* ScreenshotSettings.swift */; };
+		79548B989E2DC72F42D06CBB /* FileNamingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04909E18EE88A3CD7F4164D0 /* FileNamingTests.swift */; };
+		7B421864248A640BFAB77C96 /* CaptureStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B362B08379469A65E47B9 /* CaptureStoring.swift */; };
+		8607D9C9B18C402F7E251B31 /* StartRecordingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCFE6374088554874347370 /* StartRecordingUseCase.swift */; };
+		87840E243C4D11B7ECB99705 /* Hotkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4254A286CDEEF0531A86C05 /* Hotkey.swift */; };
+		8AD81B5C04C5B881014D4D1E /* LibreScreenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB12ACE822C68A4FEACB2E7 /* LibreScreenError.swift */; };
+		8BF2CC6AC9FDE8969DBBF226 /* NSScreen+DisplayID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807768D65C04A07600A74E88 /* NSScreen+DisplayID.swift */; };
+		8DC0C850C6D51EDE04374CD8 /* MediaDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702748BD503FBAD34B79625C /* MediaDevice.swift */; };
+		902DDC105F143CAF9117C2FD /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB132A7A774026FD4464CD4 /* RecordingSettings.swift */; };
+		92912D3699AA40C0BD7AD750 /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B3C84710CD4DB64E0D6D1 /* Recording.swift */; };
+		93805A1A1FEF838E0D441E21 /* TakeScreenshotUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A67879A86A97E6A75B6BFFD /* TakeScreenshotUseCase.swift */; };
+		93A7FE1B8D6D6B066AD86433 /* HubWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE0591CB1339F8254C7446C /* HubWindowController.swift */; };
+		9F03929B32E989268C9FC89A /* LibreScreenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D970F25B5B613FEAC4FFCC3 /* LibreScreenApp.swift */; };
+		9FF2A3B6C7316E82740A9031 /* PermissionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC95C83884E4D7049CEA38E3 /* PermissionsViewModel.swift */; };
+		A611275721AE28625026BC07 /* WindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835BA2BE2AE3643C2E4AC2C1 /* WindowCoordinator.swift */; };
+		A6326CA27E0F9F61A3EC227E /* MediaDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB78C2ABBEFF6EE6BE35DFB /* MediaDeviceService.swift */; };
+		AB9C874BA8969554DF19C6EE /* DebugSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536A6BFBF26022CFC0D01B50 /* DebugSnapshots.swift */; };
+		B114491453B46B5A04EB08FD /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AD60479001D57AFD417E0 /* AppSettings.swift */; };
+		B2153E3D672A75430626D44F /* OutputDirectories.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3298D8862D769D07144F650 /* OutputDirectories.swift */; };
+		B319A957CB8B5445F45540BE /* AppSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C716086EE3FAF761232EE01 /* AppSettingsTests.swift */; };
+		C159134C852EBEF7E9505F8B /* CaptureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B5292AE7FAF0DCC3A9735 /* CaptureItem.swift */; };
+		C484E0245B5968D613DCC4D0 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1ECDAC6119C1050DADF9180 /* SettingsStore.swift */; };
+		C518585017652046D9F2EF51 /* CaptureSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFE17BF3D629BBC51397BDD /* CaptureSource.swift */; };
+		CADF6E841E7C5EEC4BA2253D /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4180E6D1F944B296D8EAD1 /* GeneralSettings.swift */; };
+		CAF36DE9C5CB7EAC8CE744F2 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */; };
+		D4F4DF5FF33B713557F642EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4946FCA979A59D47F722EA8 /* AppDelegate.swift */; };
+		D62B07B43416E55B87D02A13 /* HubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00B7B493F98840687C2B763 /* HubViewModel.swift */; };
+		D85CFD3ECE60D971B38F641A /* RecordingCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95276259F6CBA3767BB232A9 /* RecordingCoordinating.swift */; };
+		D8D3542C6198A8F110F8A9C7 /* SettingsStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981963349C055B6D6BCA777A /* SettingsStoring.swift */; };
+		E2C87572A841DC5CD8CC8042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDF963F7F5E21125D2262A92 /* Assets.xcassets */; };
+		ECF294D09A7CC1BC5BB27CAC /* CaptureCoordinatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFAA75755326D72A67A886 /* CaptureCoordinatesTests.swift */; };
+		F25A519A9591321008FC1572 /* PermissionsChecking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5BEF13A74BEEEE276C69C7 /* PermissionsChecking.swift */; };
+		F3DB05EE4731F2EC3E31FC3E /* CaptureCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F9E1FC0125C23330B203F /* CaptureCoordinates.swift */; };
+		F5F0033CE144566F43D72A00 /* MediaDeviceProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A944E183B5F3E7B94EF4B58B /* MediaDeviceProviding.swift */; };
+		F7D61A2D9757847F3FC29DC1 /* ContentFilterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666F6852A8CFF74C45996133 /* ContentFilterFactory.swift */; };
+		F7EC6BDA169D4724634D504B /* HotkeyRegistering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0427D671FDC213EA515D80BA /* HotkeyRegistering.swift */; };
+		FFAD1DB01FFB51F37B1C06A7 /* SourceControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1BA4338599BB5E8CA500D7 /* SourceControls.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E973A933AD7AAB5A61E0B233 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900599996304EF1BDA9A888 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5891C7E252FBE3E8C80A06E1;
+			remoteInfo = LibreScreen;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0427D671FDC213EA515D80BA /* HotkeyRegistering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRegistering.swift; sourceTree = "<group>"; };
+		04909E18EE88A3CD7F4164D0 /* FileNamingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNamingTests.swift; sourceTree = "<group>"; };
+		06AC6724DAFB784AE436E4F9 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		0A5B3C84710CD4DB64E0D6D1 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
+		0A8B5292AE7FAF0DCC3A9735 /* CaptureItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureItem.swift; sourceTree = "<group>"; };
+		0C716086EE3FAF761232EE01 /* AppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsTests.swift; sourceTree = "<group>"; };
+		14A4D1029676EDE7DCA8EB92 /* OutputLocating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputLocating.swift; sourceTree = "<group>"; };
+		1A944B87F3A03338FFFC4829 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		2717BC9A1C26C7D06241C26B /* LibreScreenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibreScreenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28CBFD20EEBC1669C56DADC4 /* ShareableContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableContentService.swift; sourceTree = "<group>"; };
+		2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		47DFAA75755326D72A67A886 /* CaptureCoordinatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureCoordinatesTests.swift; sourceTree = "<group>"; };
+		4957F4B0A65F75F84D115585 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		498E6D7BAC0E591B730B1D91 /* ImageFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFileWriter.swift; sourceTree = "<group>"; };
+		536A6BFBF26022CFC0D01B50 /* DebugSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSnapshots.swift; sourceTree = "<group>"; };
+		5EFE17BF3D629BBC51397BDD /* CaptureSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSource.swift; sourceTree = "<group>"; };
+		666F6852A8CFF74C45996133 /* ContentFilterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFilterFactory.swift; sourceTree = "<group>"; };
+		6C4180E6D1F944B296D8EAD1 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
+		6D4F9E1FC0125C23330B203F /* CaptureCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureCoordinates.swift; sourceTree = "<group>"; };
+		6DCFE6374088554874347370 /* StartRecordingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRecordingUseCase.swift; sourceTree = "<group>"; };
+		702748BD503FBAD34B79625C /* MediaDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDevice.swift; sourceTree = "<group>"; };
+		7A67879A86A97E6A75B6BFFD /* TakeScreenshotUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeScreenshotUseCase.swift; sourceTree = "<group>"; };
+		7D970F25B5B613FEAC4FFCC3 /* LibreScreenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreScreenApp.swift; sourceTree = "<group>"; };
+		807768D65C04A07600A74E88 /* NSScreen+DisplayID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+DisplayID.swift"; sourceTree = "<group>"; };
+		820B362B08379469A65E47B9 /* CaptureStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureStoring.swift; sourceTree = "<group>"; };
+		835BA2BE2AE3643C2E4AC2C1 /* WindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCoordinator.swift; sourceTree = "<group>"; };
+		8599E7DA01DCFC1EBCBFDEC9 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
+		875ED3197FDDEF612E50C0B4 /* CameraOverlaySettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraOverlaySettingsTests.swift; sourceTree = "<group>"; };
+		8A5BEF13A74BEEEE276C69C7 /* PermissionsChecking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsChecking.swift; sourceTree = "<group>"; };
+		8BB132A7A774026FD4464CD4 /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
+		8D04644780F2D563065EA9F2 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
+		950075D40126DA4071C43378 /* ScreenshotSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotSettings.swift; sourceTree = "<group>"; };
+		95276259F6CBA3767BB232A9 /* RecordingCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCoordinating.swift; sourceTree = "<group>"; };
+		981963349C055B6D6BCA777A /* SettingsStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoring.swift; sourceTree = "<group>"; };
+		A8635FB989815FD57B2F308E /* GlassSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassSurface.swift; sourceTree = "<group>"; };
+		A944E183B5F3E7B94EF4B58B /* MediaDeviceProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceProviding.swift; sourceTree = "<group>"; };
+		AC95C83884E4D7049CEA38E3 /* PermissionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewModel.swift; sourceTree = "<group>"; };
+		ACB78C2ABBEFF6EE6BE35DFB /* MediaDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceService.swift; sourceTree = "<group>"; };
+		B0C8358C29E4E51AD3C00BA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B1ECDAC6119C1050DADF9180 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		B4890C5A6537B58F2FDC03FA /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		BDB12ACE822C68A4FEACB2E7 /* LibreScreenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreScreenError.swift; sourceTree = "<group>"; };
+		BDF963F7F5E21125D2262A92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C0AB4F64A91BB9B73C294FA8 /* LibreScreen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LibreScreen.entitlements; sourceTree = "<group>"; };
+		C101A415569FB4212E42A29D /* CameraOverlaySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraOverlaySettings.swift; sourceTree = "<group>"; };
+		C3298D8862D769D07144F650 /* OutputDirectories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDirectories.swift; sourceTree = "<group>"; };
+		C9E3C546449AF6F835DCC989 /* MenuBarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarMenuView.swift; sourceTree = "<group>"; };
+		CC510628CD00162C17E0F848 /* Screenshotting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screenshotting.swift; sourceTree = "<group>"; };
+		D00B7B493F98840687C2B763 /* HubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubViewModel.swift; sourceTree = "<group>"; };
+		D96FF569A64297111BF57FB9 /* ShareableContentProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableContentProviding.swift; sourceTree = "<group>"; };
+		DC6AD60479001D57AFD417E0 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		DD1BA4338599BB5E8CA500D7 /* SourceControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceControls.swift; sourceTree = "<group>"; };
+		E0469A8FC5F69EA1943EA22A /* CaptureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureStore.swift; sourceTree = "<group>"; };
+		E338B4BF89D31011E774EEEE /* PermissionFlagsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionFlagsStore.swift; sourceTree = "<group>"; };
+		E44F589465359AF1154B769A /* DeviceControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceControls.swift; sourceTree = "<group>"; };
+		E7B5D5D32698861B85886588 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E9A0CAF21B6E10C6E85036C6 /* LibreScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibreScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBE0591CB1339F8254C7446C /* HubWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubWindowController.swift; sourceTree = "<group>"; };
+		ED427288BA8EADB14825ADED /* CameraCapturing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapturing.swift; sourceTree = "<group>"; };
+		EE56928878414A5DAEAD6CCD /* ModePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModePicker.swift; sourceTree = "<group>"; };
+		F1AB3DC7FE796CCA0474CE82 /* PermissionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsService.swift; sourceTree = "<group>"; };
+		F4254A286CDEEF0531A86C05 /* Hotkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotkey.swift; sourceTree = "<group>"; };
+		F4946FCA979A59D47F722EA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		232BC5A004A068A746CA9B06 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E7B5D5D32698861B85886588 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2D295D6819AE7BA04B3E54F7 = {
+			isa = PBXGroup;
+			children = (
+				6CB8902C1AA1416455E2324C /* LibreScreen */,
+				F56D56C1072DDA487AC5B992 /* LibreScreenTests */,
+				C023643823683CD57AFFC9A0 /* Products */,
+			);
+			indentWidth = 4;
+			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
+		};
+		334C8697F103404834B043CA /* ScreenCaptureKit */ = {
+			isa = PBXGroup;
+			children = (
+				6D4F9E1FC0125C23330B203F /* CaptureCoordinates.swift */,
+				666F6852A8CFF74C45996133 /* ContentFilterFactory.swift */,
+				28CBFD20EEBC1669C56DADC4 /* ShareableContentService.swift */,
+			);
+			path = ScreenCaptureKit;
+			sourceTree = "<group>";
+		};
+		3B053631EB9CB9E8F61D2899 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				9334DF5EB1EAA2D9E379D55B /* Components */,
+				79BFDB166A9D4F44BEF434F1 /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		3BBE6B851EA13925B6EE538B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				666CF49070D48880F9053A23 /* Editor */,
+				9C41CB6D626AD67548E368FC /* Hub */,
+				FDABAAA497C47BFECA70EA79 /* Permissions */,
+				4AD6DF480CC50169BF5DD268 /* Recording */,
+				EBD62616912090B850C117C6 /* Screenshot */,
+				232BC5A004A068A746CA9B06 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		49A4FA64392551BD932DD0E2 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				6DCFE6374088554874347370 /* StartRecordingUseCase.swift */,
+				7A67879A86A97E6A75B6BFFD /* TakeScreenshotUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		4AD6DF480CC50169BF5DD268 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		4F7839197B36D96A30D4FB67 /* Hotkeys */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Hotkeys;
+			sourceTree = "<group>";
+		};
+		546B2FEBC32507432D1DA9AE /* Vision */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Vision;
+			sourceTree = "<group>";
+		};
+		62297C7DF9E512FA989003AB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BDF963F7F5E21125D2262A92 /* Assets.xcassets */,
+				B0C8358C29E4E51AD3C00BA2 /* Info.plist */,
+				C0AB4F64A91BB9B73C294FA8 /* LibreScreen.entitlements */,
+				4957F4B0A65F75F84D115585 /* Localizable.xcstrings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		666CF49070D48880F9053A23 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
+		6CB8902C1AA1416455E2324C /* LibreScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D514A224F51CC0ABF89E5B80 /* App */,
+				923E53DFE43F8C318107787A /* Domain */,
+				3BBE6B851EA13925B6EE538B /* Features */,
+				99FA84CB3426F8D3B5A9A41B /* Infrastructure */,
+				62297C7DF9E512FA989003AB /* Resources */,
+				3B053631EB9CB9E8F61D2899 /* Shared */,
+			);
+			path = LibreScreen;
+			sourceTree = "<group>";
+		};
+		79BFDB166A9D4F44BEF434F1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				807768D65C04A07600A74E88 /* NSScreen+DisplayID.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		923E53DFE43F8C318107787A /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FC23215F9EEB92803908BC9C /* Models */,
+				E59E74C3D67A08349436B8A1 /* Protocols */,
+				49A4FA64392551BD932DD0E2 /* UseCases */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		9334DF5EB1EAA2D9E379D55B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2E83CECBEB77C96CB2CE1D98 /* DesignTokens.swift */,
+				A8635FB989815FD57B2F308E /* GlassSurface.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		99FA84CB3426F8D3B5A9A41B /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				DD498A426DEA7E1A26DDCAB5 /* AVFoundation */,
+				4F7839197B36D96A30D4FB67 /* Hotkeys */,
+				E48370F4AF16E532C54E6542 /* Permissions */,
+				F9AF82EC4BFC2A87EAE4221C /* Pipeline */,
+				334C8697F103404834B043CA /* ScreenCaptureKit */,
+				B78FAAA138B11A2EFE8D854F /* Storage */,
+				546B2FEBC32507432D1DA9AE /* Vision */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		9C41CB6D626AD67548E368FC /* Hub */ = {
+			isa = PBXGroup;
+			children = (
+				E44F589465359AF1154B769A /* DeviceControls.swift */,
+				8599E7DA01DCFC1EBCBFDEC9 /* HubView.swift */,
+				D00B7B493F98840687C2B763 /* HubViewModel.swift */,
+				EBE0591CB1339F8254C7446C /* HubWindowController.swift */,
+				C9E3C546449AF6F835DCC989 /* MenuBarMenuView.swift */,
+				EE56928878414A5DAEAD6CCD /* ModePicker.swift */,
+				DD1BA4338599BB5E8CA500D7 /* SourceControls.swift */,
+			);
+			path = Hub;
+			sourceTree = "<group>";
+		};
+		B78FAAA138B11A2EFE8D854F /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				E0469A8FC5F69EA1943EA22A /* CaptureStore.swift */,
+				498E6D7BAC0E591B730B1D91 /* ImageFileWriter.swift */,
+				C3298D8862D769D07144F650 /* OutputDirectories.swift */,
+				E338B4BF89D31011E774EEEE /* PermissionFlagsStore.swift */,
+				B1ECDAC6119C1050DADF9180 /* SettingsStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		C023643823683CD57AFFC9A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9A0CAF21B6E10C6E85036C6 /* LibreScreen.app */,
+				2717BC9A1C26C7D06241C26B /* LibreScreenTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D514A224F51CC0ABF89E5B80 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				06AC6724DAFB784AE436E4F9 /* AppContainer.swift */,
+				F4946FCA979A59D47F722EA8 /* AppDelegate.swift */,
+				536A6BFBF26022CFC0D01B50 /* DebugSnapshots.swift */,
+				7D970F25B5B613FEAC4FFCC3 /* LibreScreenApp.swift */,
+				1A944B87F3A03338FFFC4829 /* Logging.swift */,
+				835BA2BE2AE3643C2E4AC2C1 /* WindowCoordinator.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DC93B1F36155A48B1AC1610E /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fakes;
+			sourceTree = "<group>";
+		};
+		DD498A426DEA7E1A26DDCAB5 /* AVFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				ACB78C2ABBEFF6EE6BE35DFB /* MediaDeviceService.swift */,
+			);
+			path = AVFoundation;
+			sourceTree = "<group>";
+		};
+		E48370F4AF16E532C54E6542 /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				F1AB3DC7FE796CCA0474CE82 /* PermissionsService.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
+		E59E74C3D67A08349436B8A1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				ED427288BA8EADB14825ADED /* CameraCapturing.swift */,
+				820B362B08379469A65E47B9 /* CaptureStoring.swift */,
+				0427D671FDC213EA515D80BA /* HotkeyRegistering.swift */,
+				A944E183B5F3E7B94EF4B58B /* MediaDeviceProviding.swift */,
+				14A4D1029676EDE7DCA8EB92 /* OutputLocating.swift */,
+				8A5BEF13A74BEEEE276C69C7 /* PermissionsChecking.swift */,
+				95276259F6CBA3767BB232A9 /* RecordingCoordinating.swift */,
+				CC510628CD00162C17E0F848 /* Screenshotting.swift */,
+				981963349C055B6D6BCA777A /* SettingsStoring.swift */,
+				D96FF569A64297111BF57FB9 /* ShareableContentProviding.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		EBD62616912090B850C117C6 /* Screenshot */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screenshot;
+			sourceTree = "<group>";
+		};
+		F56D56C1072DDA487AC5B992 /* LibreScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC93B1F36155A48B1AC1610E /* Fakes */,
+				0C716086EE3FAF761232EE01 /* AppSettingsTests.swift */,
+				875ED3197FDDEF612E50C0B4 /* CameraOverlaySettingsTests.swift */,
+				47DFAA75755326D72A67A886 /* CaptureCoordinatesTests.swift */,
+				04909E18EE88A3CD7F4164D0 /* FileNamingTests.swift */,
+			);
+			path = LibreScreenTests;
+			sourceTree = "<group>";
+		};
+		F9AF82EC4BFC2A87EAE4221C /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		FC23215F9EEB92803908BC9C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DC6AD60479001D57AFD417E0 /* AppSettings.swift */,
+				C101A415569FB4212E42A29D /* CameraOverlaySettings.swift */,
+				0A8B5292AE7FAF0DCC3A9735 /* CaptureItem.swift */,
+				5EFE17BF3D629BBC51397BDD /* CaptureSource.swift */,
+				6C4180E6D1F944B296D8EAD1 /* GeneralSettings.swift */,
+				F4254A286CDEEF0531A86C05 /* Hotkey.swift */,
+				BDB12ACE822C68A4FEACB2E7 /* LibreScreenError.swift */,
+				702748BD503FBAD34B79625C /* MediaDevice.swift */,
+				8D04644780F2D563065EA9F2 /* Permission.swift */,
+				0A5B3C84710CD4DB64E0D6D1 /* Recording.swift */,
+				8BB132A7A774026FD4464CD4 /* RecordingSettings.swift */,
+				950075D40126DA4071C43378 /* ScreenshotSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FDABAAA497C47BFECA70EA79 /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				B4890C5A6537B58F2FDC03FA /* PermissionsView.swift */,
+				AC95C83884E4D7049CEA38E3 /* PermissionsViewModel.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5891C7E252FBE3E8C80A06E1 /* LibreScreen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0B2A14419E4B6512C34F487 /* Build configuration list for PBXNativeTarget "LibreScreen" */;
+			buildPhases = (
+				C6509D515C8BF8013C948E54 /* Sources */,
+				B8122F796B0DC4306C4AF530 /* SwiftLint */,
+				0F219C7C38D9BB15FF0ED9E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LibreScreen;
+			packageProductDependencies = (
+			);
+			productName = LibreScreen;
+			productReference = E9A0CAF21B6E10C6E85036C6 /* LibreScreen.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D5EA512C28CA56BBAE348E57 /* LibreScreenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31E06885AD133FD201A4E10D /* Build configuration list for PBXNativeTarget "LibreScreenTests" */;
+			buildPhases = (
+				5C85A182E5628C8372207933 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6D2D4DB2112BB3374C738A98 /* PBXTargetDependency */,
+			);
+			name = LibreScreenTests;
+			packageProductDependencies = (
+			);
+			productName = LibreScreenTests;
+			productReference = 2717BC9A1C26C7D06241C26B /* LibreScreenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2900599996304EF1BDA9A888 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					5891C7E252FBE3E8C80A06E1 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					D5EA512C28CA56BBAE348E57 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 4B43C829137AC5E22572F98A /* Build configuration list for PBXProject "LibreScreen" */;
+			developmentRegion = "pt-BR";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				"pt-BR",
+			);
+			mainGroup = 2D295D6819AE7BA04B3E54F7;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C023643823683CD57AFFC9A0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5891C7E252FBE3E8C80A06E1 /* LibreScreen */,
+				D5EA512C28CA56BBAE348E57 /* LibreScreenTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0F219C7C38D9BB15FF0ED9E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2C87572A841DC5CD8CC8042 /* Assets.xcassets in Resources */,
+				059570DADDFCF1314A498267 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B8122F796B0DC4306C4AF530 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"/opt/homebrew/bin:$PATH\"\nif command -v swiftlint >/dev/null 2>&1; then\n  cd \"${SRCROOT}\" && swiftlint lint --quiet --config \"${SRCROOT}/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint is not installed (brew install swiftlint)\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5C85A182E5628C8372207933 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B319A957CB8B5445F45540BE /* AppSettingsTests.swift in Sources */,
+				66549DDF0B6B61CF3B7963F9 /* CameraOverlaySettingsTests.swift in Sources */,
+				ECF294D09A7CC1BC5BB27CAC /* CaptureCoordinatesTests.swift in Sources */,
+				79548B989E2DC72F42D06CBB /* FileNamingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6509D515C8BF8013C948E54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49B90F9A6409197403E542E6 /* AppContainer.swift in Sources */,
+				D4F4DF5FF33B713557F642EC /* AppDelegate.swift in Sources */,
+				B114491453B46B5A04EB08FD /* AppSettings.swift in Sources */,
+				2A0FC97C0652EA9D7CD5D770 /* CameraCapturing.swift in Sources */,
+				482166D197B49C786B5D0C1F /* CameraOverlaySettings.swift in Sources */,
+				F3DB05EE4731F2EC3E31FC3E /* CaptureCoordinates.swift in Sources */,
+				C159134C852EBEF7E9505F8B /* CaptureItem.swift in Sources */,
+				C518585017652046D9F2EF51 /* CaptureSource.swift in Sources */,
+				007C7A0DB2725262224F2194 /* CaptureStore.swift in Sources */,
+				7B421864248A640BFAB77C96 /* CaptureStoring.swift in Sources */,
+				F7D61A2D9757847F3FC29DC1 /* ContentFilterFactory.swift in Sources */,
+				AB9C874BA8969554DF19C6EE /* DebugSnapshots.swift in Sources */,
+				CAF36DE9C5CB7EAC8CE744F2 /* DesignTokens.swift in Sources */,
+				25D5395939A58FF7A31F374E /* DeviceControls.swift in Sources */,
+				CADF6E841E7C5EEC4BA2253D /* GeneralSettings.swift in Sources */,
+				627CE892C5800B8FAFCBEBF3 /* GlassSurface.swift in Sources */,
+				87840E243C4D11B7ECB99705 /* Hotkey.swift in Sources */,
+				F7EC6BDA169D4724634D504B /* HotkeyRegistering.swift in Sources */,
+				15B1A7FBD0D0FE5F1FA1F7CE /* HubView.swift in Sources */,
+				D62B07B43416E55B87D02A13 /* HubViewModel.swift in Sources */,
+				93A7FE1B8D6D6B066AD86433 /* HubWindowController.swift in Sources */,
+				72FCBFDAB6F7E55C2567AEE5 /* ImageFileWriter.swift in Sources */,
+				9F03929B32E989268C9FC89A /* LibreScreenApp.swift in Sources */,
+				8AD81B5C04C5B881014D4D1E /* LibreScreenError.swift in Sources */,
+				1F113B8C04D9135074E1195C /* Logging.swift in Sources */,
+				8DC0C850C6D51EDE04374CD8 /* MediaDevice.swift in Sources */,
+				F5F0033CE144566F43D72A00 /* MediaDeviceProviding.swift in Sources */,
+				A6326CA27E0F9F61A3EC227E /* MediaDeviceService.swift in Sources */,
+				29B0800E3F3B433E377EFBEC /* MenuBarMenuView.swift in Sources */,
+				39656FC8E1F25C8714B5A837 /* ModePicker.swift in Sources */,
+				8BF2CC6AC9FDE8969DBBF226 /* NSScreen+DisplayID.swift in Sources */,
+				B2153E3D672A75430626D44F /* OutputDirectories.swift in Sources */,
+				03A7728CEADC8A5B28408009 /* OutputLocating.swift in Sources */,
+				06442F21D25B4A27FDCE0F5D /* Permission.swift in Sources */,
+				5AEDEB01FE1F796DF13DF2A0 /* PermissionFlagsStore.swift in Sources */,
+				F25A519A9591321008FC1572 /* PermissionsChecking.swift in Sources */,
+				0F88C5D170D0A120E6DF3B53 /* PermissionsService.swift in Sources */,
+				6B738CDD2E5167B7FC7AC496 /* PermissionsView.swift in Sources */,
+				9FF2A3B6C7316E82740A9031 /* PermissionsViewModel.swift in Sources */,
+				92912D3699AA40C0BD7AD750 /* Recording.swift in Sources */,
+				D85CFD3ECE60D971B38F641A /* RecordingCoordinating.swift in Sources */,
+				902DDC105F143CAF9117C2FD /* RecordingSettings.swift in Sources */,
+				7540AB4E6A779A2CA6B4A59B /* ScreenshotSettings.swift in Sources */,
+				2C253232F55C1BF111A818E1 /* Screenshotting.swift in Sources */,
+				C484E0245B5968D613DCC4D0 /* SettingsStore.swift in Sources */,
+				D8D3542C6198A8F110F8A9C7 /* SettingsStoring.swift in Sources */,
+				00D6AEE8F717723DFBB7A85C /* SettingsView.swift in Sources */,
+				5A0043A9A0507779C7DCF001 /* ShareableContentProviding.swift in Sources */,
+				140EED07B03A07C6EE0EB730 /* ShareableContentService.swift in Sources */,
+				FFAD1DB01FFB51F37B1C06A7 /* SourceControls.swift in Sources */,
+				8607D9C9B18C402F7E251B31 /* StartRecordingUseCase.swift in Sources */,
+				93805A1A1FEF838E0D441E21 /* TakeScreenshotUseCase.swift in Sources */,
+				A611275721AE28625026BC07 /* WindowCoordinator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6D2D4DB2112BB3374C738A98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5891C7E252FBE3E8C80A06E1 /* LibreScreen */;
+			targetProxy = E973A933AD7AAB5A61E0B233 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		501E04BC58ACB41B9B4A61DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		6AD4B6FB8C6C545DE666817B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LibreScreen/Resources/LibreScreen.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LibreScreen/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.asoft.LibreScreen;
+				PRODUCT_NAME = LibreScreen;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		783B9F05816F75DB856EB1FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LibreScreen/Resources/LibreScreen.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LibreScreen/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.asoft.LibreScreen;
+				PRODUCT_NAME = LibreScreen;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E76E57EF85083354FFC3BB44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		EEA6A4E770657033B1C41ECD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.asoft.LibreScreenTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LibreScreen.app/Contents/MacOS/LibreScreen";
+			};
+			name = Debug;
+		};
+		FC955E688D36970BC731A6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.asoft.LibreScreenTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LibreScreen.app/Contents/MacOS/LibreScreen";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31E06885AD133FD201A4E10D /* Build configuration list for PBXNativeTarget "LibreScreenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEA6A4E770657033B1C41ECD /* Debug */,
+				FC955E688D36970BC731A6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4B43C829137AC5E22572F98A /* Build configuration list for PBXProject "LibreScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				501E04BC58ACB41B9B4A61DF /* Debug */,
+				E76E57EF85083354FFC3BB44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A0B2A14419E4B6512C34F487 /* Build configuration list for PBXNativeTarget "LibreScreen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				783B9F05816F75DB856EB1FF /* Debug */,
+				6AD4B6FB8C6C545DE666817B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2900599996304EF1BDA9A888 /* Project object */;
+}
