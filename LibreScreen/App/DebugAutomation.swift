@@ -5,12 +5,47 @@
 #if DEBUG
 import AppKit
 import AVFoundation
+import ScreenCaptureKit
 
 /// Developer tool: `LibreScreen -autorecord <seconds>` records the main display without the camera,
 /// pausing for two seconds in the middle, then inspects the file and quits. Output goes to the unified
 /// log (`log show --predicate 'subsystem == "br.com.asoft.LibreScreen"'`). Debug builds only.
 @MainActor
 enum DebugAutomation {
+    static func wantsScreenshots(_ arguments: [String] = ProcessInfo.processInfo.arguments) -> Bool {
+        arguments.contains("-autoscreenshot")
+    }
+
+    /// Captures the main display and a 600×400 region of it, reporting pixel sizes and file paths.
+    static func runScreenshots(container: AppContainer) async {
+        await container.hub.refresh()
+        guard let display = container.hub.selectedDisplay else {
+            report("ERROR no display")
+            return NSApp.terminate(nil)
+        }
+        let useCase = TakeScreenshotUseCase(
+            permissions: container.permissions,
+            screenshots: container.screenshots,
+            encoder: container.encoder,
+            output: container.output,
+            store: container.captures
+        )
+        if let content = try? await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true) {
+            report("hub display id=\(display.id); SCK displays=\(content.displays.map(\.displayID)) windows=\(content.windows.count)")
+        }
+        let region = RegionInfo(display: display, rect: CGRect(x: 100, y: 100, width: 600, height: 400))
+        for source in [CaptureSource.display(display), .region(region)] {
+            do {
+                let outcome = try await useCase.execute(source: source, settings: container.settings.settings.screenshot)
+                let path = outcome.item.url.path(percentEncoded: false)
+                report("screenshot \(source.kind.rawValue): \(outcome.image.width)x\(outcome.image.height) -> \(path)")
+            } catch {
+                report("ERROR screenshot \(source.kind.rawValue): \(error.localizedDescription)")
+            }
+        }
+        NSApp.terminate(nil)
+    }
+
     static func secondsFromArguments(_ arguments: [String] = ProcessInfo.processInfo.arguments) -> Int? {
         guard let index = arguments.firstIndex(of: "-autorecord"), arguments.indices.contains(index + 1) else { return nil }
         return Int(arguments[index + 1])

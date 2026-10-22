@@ -54,7 +54,7 @@ struct SourceControls: View {
 
     private var regionControls: some View {
         Button {
-            hub.selectRegion()
+            Task { await hub.selectRegion() }
         } label: {
             Label(regionTitle, systemImage: "rectangle.dashed")
         }

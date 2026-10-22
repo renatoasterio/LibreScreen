@@ -58,16 +58,22 @@ final class ShareableContentService: ShareableContentProviding {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         let filter = try ContentFilterFactory.filter(for: source, content: content)
         let configuration = SCStreamConfiguration()
-        let size = source.pointSize
+        // Regions are captured as their display at reduced size, then cropped.
+        let size = source.displayInfo.map(\.pointSize) ?? source.pointSize
         let ratio = min(maxPixelSize / max(size.width, 1), maxPixelSize / max(size.height, 1), 1)
         configuration.width = max(Int(size.width * ratio), 2)
         configuration.height = max(Int(size.height * ratio), 2)
         configuration.showsCursor = false
         configuration.scalesToFit = true
-        if case let .region(region) = source {
-            configuration.sourceRect = region.rect
-        }
-        return try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+        guard case let .region(region) = source else { return image }
+        let scaled = RegionInfo(display: region.display, rect: CGRect(
+            x: region.rect.minX * ratio,
+            y: region.rect.minY * ratio,
+            width: region.rect.width * ratio,
+            height: region.rect.height * ratio
+        ))
+        return try ScreenshotService.crop(image, to: scaled, resolution: .points)
     }
 }
 

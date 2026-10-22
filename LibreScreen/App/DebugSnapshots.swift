@@ -37,8 +37,65 @@ enum DebugSnapshots {
                 await capture(view, appearance: appearance, to: directory.appending(path: "\(name)-\(suffix).png"))
             }
         }
+        if let editor = sampleEditor(container: container) {
+            await capture(
+                AnyView(EditorView(model: editor).frame(width: 1100, height: 720)),
+                appearance: .darkAqua,
+                to: directory.appending(path: "editor-dark.png")
+            )
+            if let rendered = editor.renderedImage() {
+                try? ImageFileWriter().write(rendered, to: directory.appending(path: "editor-export.png"), format: .png, quality: 1)
+            }
+        }
         Log.app.info("Snapshots written to \(directory.path, privacy: .private)")
         NSApp.terminate(nil)
+    }
+
+    /// An editor over the newest screenshot with one annotation of every kind.
+    private static func sampleEditor(container: AppContainer) -> EditorViewModel? {
+        let folder = container.output.defaultScreenshotsDirectory
+        let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.contentModificationDateKey]))?
+            .filter { $0.pathExtension.lowercased() == "png" }
+            .sorted {
+                (try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate ?? .distantPast) ?? .distantPast >
+                    (try? $1.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate ?? .distantPast) ?? .distantPast
+            }
+        guard
+            let url = files?.first,
+            let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+            let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
+        let item = CaptureItem(
+            kind: .screenshot,
+            url: url,
+            pixelSize: CGSize(width: image.width, height: image.height),
+            sourceSummary: "sample"
+        )
+        let model = EditorViewModel(item: item, image: image, encoder: ImageFileWriter()) { _ in }
+        let width = CGFloat(image.width), height = CGFloat(image.height)
+        var style = AnnotationStyle()
+        style.lineWidth = max(4, width / 400)
+        style.fontSize = max(28, width / 60)
+        let samples: [AnnotationShape] = [
+            .arrow(from: CGPoint(x: width * 0.1, y: height * 0.2), to: CGPoint(x: width * 0.3, y: height * 0.4)),
+            .rectangle(CGRect(x: width * 0.4, y: height * 0.15, width: width * 0.25, height: height * 0.2)),
+            .ellipse(CGRect(x: width * 0.7, y: height * 0.2, width: width * 0.15, height: height * 0.15)),
+            .text("LibreScreen", origin: CGPoint(x: width * 0.1, y: height * 0.6)),
+            .number(1, center: CGPoint(x: width * 0.5, y: height * 0.6)),
+            .pixelate(CGRect(x: width * 0.6, y: height * 0.55, width: width * 0.2, height: height * 0.15)),
+            .highlighter([CGPoint(x: width * 0.1, y: height * 0.8), CGPoint(x: width * 0.45, y: height * 0.8)]),
+            .freehand([
+                CGPoint(x: width * 0.55, y: height * 0.85),
+                CGPoint(x: width * 0.6, y: height * 0.78),
+                CGPoint(x: width * 0.66, y: height * 0.88),
+                CGPoint(x: width * 0.72, y: height * 0.8)
+            ])
+        ]
+        for (index, shape) in samples.enumerated() {
+            var itemStyle = style
+            itemStyle.color = RGBAColor.presets[index % RGBAColor.presets.count]
+            model.replaceForSnapshot(Annotation(shape: shape, style: itemStyle))
+        }
+        return model
     }
 
     private static func capture(_ view: AnyView, appearance: NSAppearance.Name, to url: URL) async {
@@ -69,7 +126,18 @@ enum DebugSnapshots {
             configuration.showsCursor = false
             configuration.captureResolution = .best
             let filter = SCContentFilter(desktopIndependentWindow: scWindow)
-            let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+            // ScreenCaptureKit can stall when the screen is locked; give up on this screen after a few seconds.
+            let image = try await withThrowingTaskGroup(of: CGImage.self) { group in
+                group.addTask { try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration) }
+                group.addTask {
+                    try await Task.sleep(for: .seconds(8))
+                    throw CancellationError()
+                }
+                let first = try await group.next()
+                group.cancelAll()
+                guard let first else { throw CancellationError() }
+                return first
+            }
             try ImageFileWriter().write(image, to: url, format: .png, quality: 1)
         } catch {
             Log.app.error("Snapshot failed: \(error.localizedDescription, privacy: .public)")

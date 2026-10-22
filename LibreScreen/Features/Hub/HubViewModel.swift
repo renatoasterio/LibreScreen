@@ -44,7 +44,10 @@ final class HubViewModel {
 
     let settings: SettingsStore
     let recording: RecordingViewModel
+    let screenshot: ScreenshotViewModel
     let thumbnails: ThumbnailLoader
+    weak var regionSelector: (any RegionSelecting)?
+    weak var editorOpener: (any EditorOpening)?
     private let content: any ShareableContentProviding
     private let devices: any MediaDeviceProviding
     private let permissions: any PermissionsChecking
@@ -57,6 +60,7 @@ final class HubViewModel {
         permissions: any PermissionsChecking,
         captures: any CaptureStoring,
         recording: RecordingViewModel,
+        screenshot: ScreenshotViewModel,
         thumbnails: ThumbnailLoader
     ) {
         self.settings = settings
@@ -65,6 +69,7 @@ final class HubViewModel {
         self.permissions = permissions
         self.captures = captures
         self.recording = recording
+        self.screenshot = screenshot
         self.thumbnails = thumbnails
     }
 
@@ -86,7 +91,9 @@ final class HubViewModel {
         if recording.isRecordingOrPaused {
             return true
         }
-        return selectedSource != nil && recording.phase == .idle
+        guard recording.phase == .idle, !screenshot.isCapturing else { return false }
+        // A region can always be drawn on demand.
+        return selectedSource != nil || sourceKind == .region
     }
 
     var screenRecordingStatus: PermissionStatus {
@@ -166,8 +173,24 @@ final class HubViewModel {
         isPresentingWindowPicker = true
     }
 
-    func selectRegion() {
-        Log.ui.debug("Region selection requested")
+    /// Shows the per-display overlay; the result becomes the selected region or window.
+    @discardableResult
+    func selectRegion() async -> Bool {
+        guard let regionSelector else { return false }
+        if displays.isEmpty {
+            await refresh()
+        }
+        await loadWindows()
+        guard let result = await regionSelector.selectRegion(displays: displays, windows: windows) else { return false }
+        switch result {
+        case let .region(region):
+            selectedRegion = region
+            sourceKind = .region
+        case let .window(window):
+            selectedWindow = window
+            sourceKind = .window
+        }
+        return true
     }
 
     // MARK: - Actions
@@ -178,12 +201,16 @@ final class HubViewModel {
             await recording.stop()
             return
         }
-        guard let source = selectedSource, recording.phase == .idle else { return }
+        guard recording.phase == .idle, !screenshot.isCapturing else { return }
+        if sourceKind == .region, selectedRegion == nil {
+            guard await selectRegion() else { return }
+        }
+        guard let source = selectedSource else { return }
         switch mode {
         case .record:
             await recording.start(source: source)
         case .screenshot:
-            Log.ui.debug("Screenshot requested (not implemented yet)")
+            await screenshot.capture(source: source)
         }
     }
 
@@ -200,12 +227,19 @@ final class HubViewModel {
         case .window:
             chooseWindow()
         case .region:
-            selectRegion()
+            // Like ⌘⇧4: a fresh selection, then capture or record immediately.
+            selectedRegion = nil
+            guard await selectRegion() else { return }
+            await performPrimaryAction()
         }
     }
 
     func open(_ item: CaptureItem) {
-        CaptureItemActions.open(item)
+        if item.kind == .screenshot, let editorOpener {
+            editorOpener.openEditor(for: item, image: nil)
+        } else {
+            CaptureItemActions.open(item)
+        }
     }
 
     func remove(_ item: CaptureItem) async {

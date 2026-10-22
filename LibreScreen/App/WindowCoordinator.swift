@@ -13,10 +13,19 @@ final class WindowCoordinator {
     private lazy var hub = HubWindowController(container: container)
     private let recordingHUD = RecordingHUDPanelController()
     private let countdown = CountdownPanelController()
+    private let regionSelection = RegionSelectionController()
+    private var editors: [EditorWindowController] = []
     private lazy var thumbnail: CaptureThumbnailPanelController = {
         let controller = CaptureThumbnailPanelController(thumbnails: container.thumbnails, captures: container.captures)
         controller.onRemoved = { [weak self] _ in
             Task { await self?.container.hub.refreshRecents() }
+        }
+        controller.onOpen = { [weak self] item in
+            if item.kind == .screenshot {
+                self?.openEditor(for: item, image: nil)
+            } else {
+                CaptureItemActions.open(item)
+            }
         }
         return controller
     }()
@@ -51,6 +60,49 @@ final class WindowCoordinator {
         if NSApp.activationPolicy() != policy {
             NSApp.setActivationPolicy(policy)
         }
+    }
+}
+
+/// Opens the annotation editor for a screenshot.
+@MainActor
+protocol EditorOpening: AnyObject {
+    func openEditor(for item: CaptureItem, image: CGImage?)
+}
+
+extension WindowCoordinator: EditorOpening {
+    func openEditor(for item: CaptureItem, image: CGImage?) {
+        if let existing = editors.first(where: { $0.model.item.id == item.id }) {
+            existing.show()
+            return
+        }
+        guard let image = image ?? Self.loadImage(at: item.url) else {
+            container.hub.present(LibreScreenError.exportFailed(reason: item.url.lastPathComponent))
+            return
+        }
+        let model = EditorViewModel(item: item, image: image, encoder: container.encoder) { [weak self] saved in
+            guard let self else { return }
+            Task {
+                await container.thumbnails.invalidate(saved.url)
+                await container.hub.refreshRecents()
+            }
+        }
+        let controller = EditorWindowController(model: model)
+        controller.onClose = { [weak self] closed in
+            self?.editors.removeAll { $0 === closed }
+        }
+        editors.append(controller)
+        controller.show()
+    }
+
+    private static func loadImage(at url: URL) -> CGImage? {
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
+        return CGImageSourceCreateImageAtIndex(source, 0, nil)
+    }
+}
+
+extension WindowCoordinator: RegionSelecting {
+    func selectRegion(displays: [DisplayInfo], windows: [WindowInfo]) async -> RegionSelectionResult? {
+        await regionSelection.select(displays: displays, windows: windows)
     }
 }
 

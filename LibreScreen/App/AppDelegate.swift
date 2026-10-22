@@ -10,9 +10,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         container.recording.presenter = container.windows
+        container.hub.regionSelector = container.windows
+        container.screenshot.presentResult = { [container] item in container.windows.showCaptureResult(item) }
+        container.screenshot.openEditor = { [container] item, image in container.windows.openEditor(for: item, image: image) }
+        container.hub.editorOpener = container.windows
         #if DEBUG
         if let directory = DebugSnapshots.directoryFromArguments() {
             Task { await DebugSnapshots.run(container: container, directory: directory) }
+            return
+        }
+        if DebugAutomation.wantsScreenshots() {
+            Task { await DebugAutomation.runScreenshots(container: container) }
             return
         }
         if let seconds = DebugAutomation.secondsFromArguments() {
