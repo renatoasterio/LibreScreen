@@ -32,3 +32,6 @@ coverage/
 
 # Release archives
 dist/
+
+# Coverage data written when the binary runs outside Xcode
+*.profraw
