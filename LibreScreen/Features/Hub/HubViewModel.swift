@@ -2,6 +2,7 @@
 // Copyright (c) 2026 Renato Asterio
 // Licensed under the PolyForm Noncommercial License 1.0.0
 
+import CoreGraphics
 import Foundation
 import Observation
 
@@ -32,26 +33,39 @@ final class HubViewModel {
     var selectedRegion: RegionInfo?
     var alert: AlertContent?
     var isPresentingPermissions = false
+    var isPresentingWindowPicker = false
 
     private(set) var displays: [DisplayInfo] = []
+    private(set) var windows: [WindowInfo] = []
+    private(set) var isLoadingWindows = false
     private(set) var cameras: [MediaDevice] = []
     private(set) var microphones: [MediaDevice] = []
+    private(set) var recents: [CaptureItem] = []
 
     let settings: SettingsStore
+    let recording: RecordingViewModel
+    let thumbnails: ThumbnailLoader
     private let content: any ShareableContentProviding
     private let devices: any MediaDeviceProviding
     private let permissions: any PermissionsChecking
+    private let captures: any CaptureStoring
 
     init(
         settings: SettingsStore,
         content: any ShareableContentProviding,
         devices: any MediaDeviceProviding,
-        permissions: any PermissionsChecking
+        permissions: any PermissionsChecking,
+        captures: any CaptureStoring,
+        recording: RecordingViewModel,
+        thumbnails: ThumbnailLoader
     ) {
         self.settings = settings
         self.content = content
         self.devices = devices
         self.permissions = permissions
+        self.captures = captures
+        self.recording = recording
+        self.thumbnails = thumbnails
     }
 
     // MARK: - Derived state
@@ -69,7 +83,10 @@ final class HubViewModel {
     }
 
     var canPerformPrimaryAction: Bool {
-        selectedSource != nil
+        if recording.isRecordingOrPaused {
+            return true
+        }
+        return selectedSource != nil && recording.phase == .idle
     }
 
     var screenRecordingStatus: PermissionStatus {
@@ -103,6 +120,28 @@ final class HubViewModel {
         cameras = devices.cameras()
         microphones = devices.microphones()
         reconcileDeviceSelections()
+        await refreshRecents()
+    }
+
+    func refreshRecents() async {
+        recents = await captures.items()
+    }
+
+    func loadWindows() async {
+        isLoadingWindows = true
+        defer { isLoadingWindows = false }
+        do {
+            windows = try await content.windows()
+            if let selected = selectedWindow, !windows.contains(where: { $0.id == selected.id }) {
+                selectedWindow = nil
+            }
+        } catch {
+            present(error)
+        }
+    }
+
+    func windowThumbnail(_ window: WindowInfo) async -> CGImage? {
+        try? await content.thumbnail(for: .window(window), maxPixelSize: 480)
     }
 
     /// Keeps stored device IDs pointing at devices that still exist.
@@ -115,30 +154,37 @@ final class HubViewModel {
         }
     }
 
-    // MARK: - Device toggles
+    // MARK: - Selection
 
-    func setCameraEnabled(_ enabled: Bool) {
-        settings.settings.camera.enabled = enabled
+    func select(_ window: WindowInfo) {
+        selectedWindow = window
+        sourceKind = .window
+        isPresentingWindowPicker = false
     }
 
-    func setMicrophoneEnabled(_ enabled: Bool) {
-        settings.settings.recording.microphoneEnabled = enabled
+    func chooseWindow() {
+        isPresentingWindowPicker = true
+    }
+
+    func selectRegion() {
+        Log.ui.debug("Region selection requested")
     }
 
     // MARK: - Actions
 
-    /// Record or capture, depending on the mode. Permission prompts happen here because this is a user action.
+    /// Record, stop or capture depending on the state. Permission prompts happen inside the use cases.
     func performPrimaryAction() async {
-        guard let source = selectedSource else { return }
-        var status = permissions.status(of: .screenRecording)
-        if status == .notDetermined {
-            status = await permissions.request(.screenRecording)
-        }
-        guard status.isAuthorized else {
-            present(LibreScreenError.permissionDenied(.screenRecording))
+        if recording.isRecordingOrPaused {
+            await recording.stop()
             return
         }
-        Log.ui.info("Primary action: \(self.mode.rawValue, privacy: .public) \(source.kind.rawValue, privacy: .public)")
+        guard let source = selectedSource, recording.phase == .idle else { return }
+        switch mode {
+        case .record:
+            await recording.start(source: source)
+        case .screenshot:
+            Log.ui.debug("Screenshot requested (not implemented yet)")
+        }
     }
 
     /// Entry point for the menu bar and global hotkeys.
@@ -158,12 +204,18 @@ final class HubViewModel {
         }
     }
 
-    func chooseWindow() {
-        Log.ui.debug("Window picker requested")
+    func open(_ item: CaptureItem) {
+        CaptureItemActions.open(item)
     }
 
-    func selectRegion() {
-        Log.ui.debug("Region selection requested")
+    func remove(_ item: CaptureItem) async {
+        do {
+            try await captures.remove(item.id, deletingFile: true)
+            await thumbnails.invalidate(item.url)
+        } catch {
+            present(error)
+        }
+        await refreshRecents()
     }
 
     // MARK: - Errors

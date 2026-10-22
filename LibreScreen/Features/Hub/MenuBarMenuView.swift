@@ -15,13 +15,20 @@ struct MenuBarMenuView: View {
             container.windows.showHub()
         }
         Divider()
-        Button("Gravar tela inteira") { quick(.record, .display) }
-        Button("Gravar janela…") { quick(.record, .window) }
-        Button("Gravar área…") { quick(.record, .region) }
-        Divider()
-        Button("Capturar tela") { quick(.screenshot, .display) }
-        Button("Capturar janela…") { quick(.screenshot, .window) }
-        Button("Capturar área…") { quick(.screenshot, .region) }
+        if container.recording.isRecordingOrPaused {
+            Button("Parar gravação") { Task { await container.recording.stop() } }
+            Button(container.recording.phase == .paused ? "Retomar gravação" : "Pausar gravação") {
+                Task { await container.recording.togglePause() }
+            }
+        } else {
+            Button("Gravar tela inteira") { quick(.record, .display) }
+            Button("Gravar janela…") { quick(.record, .window) }
+            Button("Gravar área…") { quick(.record, .region) }
+            Divider()
+            Button("Capturar tela") { quick(.screenshot, .display) }
+            Button("Capturar janela…") { quick(.screenshot, .window) }
+            Button("Capturar área…") { quick(.screenshot, .region) }
+        }
         Divider()
         Button("Configurações…") {
             openSettings()
@@ -38,10 +45,18 @@ struct MenuBarMenuView: View {
     }
 }
 
-/// The status item icon.
+/// The status item icon; shows the timer while recording.
 struct MenuBarLabel: View {
+    @Environment(AppContainer.self) private var container
+
     var body: some View {
-        Image(systemName: "record.circle")
-            .accessibilityLabel("LibreScreen")
+        if container.recording.isRecordingOrPaused {
+            Label(container.recording.elapsed.recordingClock, systemImage: "record.circle.fill")
+                .labelStyle(.titleAndIcon)
+                .accessibilityLabel(Text("LibreScreen gravando, \(container.recording.elapsed.recordingClock)"))
+        } else {
+            Image(systemName: "record.circle")
+                .accessibilityLabel("LibreScreen")
+        }
     }
 }

@@ -21,6 +21,9 @@ struct HubView: View {
                 DeviceControls(hub: hub)
             }
             PrimaryActionButton(hub: hub)
+            if !hub.recents.isEmpty {
+                RecentsStrip(hub: hub)
+            }
         }
         .padding(.horizontal, DesignTokens.Spacing.xl)
         .padding(.bottom, DesignTokens.Spacing.xl)
@@ -49,6 +52,9 @@ struct HubView: View {
         .sheet(isPresented: $hub.isPresentingPermissions) {
             PermissionsView(isOnboarding: false)
                 .environment(container)
+        }
+        .sheet(isPresented: $hub.isPresentingWindowPicker) {
+            WindowPickerSheet(hub: hub)
         }
     }
 
@@ -126,13 +132,13 @@ private struct PrimaryActionButton: View {
             Button {
                 Task { await hub.performPrimaryAction() }
             } label: {
-                Label(title, systemImage: hub.mode == .record ? "record.circle.fill" : "camera.fill")
+                Label(title, systemImage: symbol)
                     .font(.system(size: 15, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 6)
             }
             .prominentGlassButtonStyle()
-            .tint(hub.mode == .record ? DesignTokens.recordRed : Color.accentColor)
+            .tint(hub.mode == .record || isActive ? DesignTokens.recordRed : Color.accentColor)
             .controlSize(.large)
             .keyboardShortcut("r", modifiers: .command)
             .disabled(!hub.canPerformPrimaryAction)
@@ -144,15 +150,41 @@ private struct PrimaryActionButton: View {
         }
     }
 
+    private var isActive: Bool {
+        hub.recording.phase.isActive
+    }
+
     private var title: String {
-        hub.mode == .record ? String(localized: "Gravar") : String(localized: "Capturar")
+        switch hub.recording.phase {
+        case .recording, .paused:
+            return String(localized: "Parar gravação")
+        case .preparing, .countdown:
+            return String(localized: "Preparando…")
+        case .finishing:
+            return String(localized: "Salvando…")
+        case .idle:
+            if hub.mode == .record {
+                return String(localized: "Gravar")
+            }
+            return String(localized: "Capturar")
+        }
+    }
+
+    private var symbol: String {
+        if hub.recording.isRecordingOrPaused {
+            return "stop.fill"
+        }
+        return hub.mode == .record ? "record.circle.fill" : "camera.fill"
     }
 
     private var hint: String {
+        if hub.recording.isRecordingOrPaused {
+            return String(localized: "⌘R · Para e salva a gravação")
+        }
         switch hub.sourceKind {
-        case .display: String(localized: "⌘R · Grava o monitor inteiro")
-        case .window: String(localized: "⌘R · Grava somente a janela escolhida")
-        case .region: String(localized: "⌘R · Grava a área selecionada")
+        case .display: return String(localized: "⌘R · Grava o monitor inteiro")
+        case .window: return String(localized: "⌘R · Grava somente a janela escolhida")
+        case .region: return String(localized: "⌘R · Grava a área selecionada")
         }
     }
 }

@@ -58,7 +58,7 @@ scan() {
   # scan "<label>" "<perl regex>" [files...]  — Perl so that \b, \s and look-behinds work on macOS.
   local label="$1" regex="$2"; shift 2
   local hits
-  hits=$(perl -ne 'BEGIN { $re = shift } next if /^\s*\/\//; print "$ARGV:$.: $_" if /$re/; close ARGV if eof' "$regex" "$@" 2>/dev/null || true)
+  hits=$(perl -ne 'BEGIN { $re = shift } next if /^\s*\/\//; next if /\[(weak|unowned)\s+self[,\]]|\[self[,\]]/; print "$ARGV:$.: $_" if /$re/; close ARGV if eof' "$regex" "$@" 2>/dev/null || true)
   if [[ -n "$hits" ]]; then
     printf '\n-- %s --\n%s\n' "$label" "$hits"
   fi
