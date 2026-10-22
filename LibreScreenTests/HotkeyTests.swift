@@ -25,7 +25,7 @@ struct HotkeyTests {
 
     @Test func defaultBindingsAreValidAndUnique() {
         let bindings = HotkeySettings.defaultBindings
-        #expect(bindings.values.allSatisfy(\.isValid))
+        #expect(bindings.values.allSatisfy { $0.isValid })
         let combos = bindings.values.map { "\($0.keyCode)-\($0.modifierFlags)" }
         #expect(Set(combos).count == combos.count)
     }
