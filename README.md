@@ -17,6 +17,10 @@
   <a href="#português">Português</a>
 </p>
 
+<p align="center">
+  <img src="docs/assets/hub-light.png" width="580" alt="LibreScreen main window" />
+</p>
+
 ---
 
 ## Features
@@ -45,7 +49,30 @@ xcodegen generate                             # regenerates LibreScreen.xcodepro
 xcodebuild -scheme LibreScreen -configuration Debug build
 ```
 
-Or open `LibreScreen.xcodeproj` in Xcode and press ⌘R. The first recording asks for the Screen Recording permission; camera and microphone permissions are requested only when you turn those features on.
+Or open `LibreScreen.xcodeproj` in Xcode and press ⌘R. The first recording asks for the Screen Recording permission; camera and microphone permissions are requested only when you turn those features on. macOS requires a relaunch after granting Screen Recording; the app offers it.
+
+Release builds are produced by `scripts/release.sh`, which writes an ad-hoc signed `dist/LibreScreen-<version>.zip`. Because the build is not notarized, the first launch needs right-click › Open.
+
+### Default global shortcuts
+
+| Action | Shortcut |
+|--------|----------|
+| Record full screen / window / area | ⌃⌥R · ⌃⌥W · ⌃⌥A |
+| Screenshot area / full screen / window | ⌃⌥S · ⌃⌥⇧S · ⌃⌥⇧W |
+| Stop recording / pause or resume | ⌃⌥⎋ · ⌃⌥P |
+
+All of them can be changed in Settings › Atalhos. In-app menu shortcuts use ⇧⌘1…6.
+
+### Debug tooling
+
+Debug builds accept launch arguments that make the app verifiable from a terminal without any UI interaction:
+
+```bash
+LibreScreen.app/Contents/MacOS/LibreScreen -snapshot /tmp/shots        # renders every screen to PNG
+LibreScreen.app/Contents/MacOS/LibreScreen -autorecord 6                # records the main display for 6 s with a pause
+LibreScreen.app/Contents/MacOS/LibreScreen -autorecord 6 -with-fake-camera   # same, with a synthetic webcam bubble
+LibreScreen.app/Contents/MacOS/LibreScreen -autoscreenshot              # full-display and region screenshots
+```
 
 Run the test suite with:
 

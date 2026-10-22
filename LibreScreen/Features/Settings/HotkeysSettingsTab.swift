@@ -24,11 +24,8 @@ struct HotkeysSettingsTab: View {
             }
             if !container.hotkeys.failedActions.isEmpty {
                 Section {
-                    Label(
-                        "Não foi possível registrar: \(container.hotkeys.failedActions.map(Self.title(for:)).joined(separator: ", ")). Outro app já usa essa combinação.",
-                        systemImage: "exclamationmark.triangle"
-                    )
-                    .foregroundStyle(.orange)
+                    Label(failureMessage, systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(.orange)
                 }
             }
             Section {
@@ -38,6 +35,11 @@ struct HotkeysSettingsTab: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    private var failureMessage: String {
+        let names = container.hotkeys.failedActions.map(Self.title(for:)).joined(separator: ", ")
+        return String(localized: "Não foi possível registrar: \(names). Outro app já usa essa combinação.")
     }
 
     private func binding(for action: HotkeyAction, store: SettingsStore) -> Binding<Hotkey?> {

@@ -59,24 +59,27 @@ final class CarbonHotkeyService: HotkeyRegistering {
     private func installEventHandler() {
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         let userData = Unmanaged.passUnretained(self).toOpaque()
-        InstallEventHandler(GetApplicationEventTarget(), { _, event, userData -> OSStatus in
-            guard let event, let userData else { return OSStatus(eventNotHandledErr) }
-            var hotkeyID = EventHotKeyID()
-            let status = GetEventParameter(
-                event,
-                EventParamName(kEventParamDirectObject),
-                EventParamType(typeEventHotKeyID),
-                nil,
-                MemoryLayout<EventHotKeyID>.size,
-                nil,
-                &hotkeyID
-            )
-            guard status == noErr else { return status }
-            let service = Unmanaged<CarbonHotkeyService>.fromOpaque(userData).takeUnretainedValue()
-            let id = hotkeyID.id
-            Task { @MainActor in service.dispatch(id: id) }
-            return noErr
-        }, 1, &spec, userData, &eventHandler)
+        InstallEventHandler(GetApplicationEventTarget(), Self.carbonCallback, 1, &spec, userData, &eventHandler)
+    }
+
+    /// C callback: reads the hotkey id and hands it to the service on the main actor.
+    private static let carbonCallback: EventHandlerUPP = { _, event, userData -> OSStatus in
+        guard let event, let userData else { return OSStatus(eventNotHandledErr) }
+        var hotkeyID = EventHotKeyID()
+        let status = GetEventParameter(
+            event,
+            EventParamName(kEventParamDirectObject),
+            EventParamType(typeEventHotKeyID),
+            nil,
+            MemoryLayout<EventHotKeyID>.size,
+            nil,
+            &hotkeyID
+        )
+        guard status == noErr else { return status }
+        let service = Unmanaged<CarbonHotkeyService>.fromOpaque(userData).takeUnretainedValue()
+        let id = hotkeyID.id
+        Task { @MainActor in service.dispatch(id: id) }
+        return noErr
     }
 
     private func dispatch(id: UInt32) {

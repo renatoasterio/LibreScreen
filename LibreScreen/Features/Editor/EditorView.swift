@@ -130,7 +130,7 @@ struct EditorToolbar: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel("Cor")
             }
-            ColorPicker("", selection: pickerColor, supportsOpacity: true)
+            ColorPicker(selection: pickerColor, supportsOpacity: true) { Text("Cor personalizada") }
                 .labelsHidden()
                 .frame(width: 24)
         }

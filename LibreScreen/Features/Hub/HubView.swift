@@ -29,7 +29,13 @@ struct HubView: View {
         .padding(.bottom, DesignTokens.Spacing.xl)
         .padding(.top, DesignTokens.Spacing.xxl)
         .frame(width: DesignTokens.hubWidth)
-        .task { await hub.refresh() }
+        .background(WindowContentSizer())
+        .task {
+            await hub.refresh()
+            if !container.settings.settings.general.hasCompletedOnboarding {
+                hub.isPresentingPermissions = true
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
             Task { await hub.refresh() }
         }
@@ -50,7 +56,7 @@ struct HubView: View {
             Text(content.message)
         }
         .sheet(isPresented: $hub.isPresentingPermissions) {
-            PermissionsView(isOnboarding: false)
+            PermissionsView(isOnboarding: !container.settings.settings.general.hasCompletedOnboarding)
                 .environment(container)
         }
         .sheet(isPresented: $hub.isPresentingWindowPicker) {

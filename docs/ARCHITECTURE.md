@@ -84,6 +84,23 @@ display. `NSScreen`/AppKit use the bottom-left origin. `CaptureCoordinates` is t
 converts between them; everything in Domain is stored in the ScreenCaptureKit convention (points,
 top-left origin). Pixel sizes are points × `backingScaleFactor` of the display that owns the source.
 
+## Editor and shortcuts
+
+- The annotation editor keeps an `AnnotationDocument` (crop + annotations in image pixel space) and
+  renders it with `AnnotationRenderer`, a Core Graphics routine shared by the live `Canvas` (through
+  `GraphicsContext.withCGContext`) and the exported file, so the preview is exact. Undo uses whole-document
+  snapshots registered with the window's `UndoManager`.
+- Global shortcuts use Carbon `RegisterEventHotKey` (no Accessibility permission). `HotkeyCoordinator`
+  re-registers whenever `AppSettings.hotkeys` changes and routes actions to the hub, the recording view
+  model or the window coordinator.
+
+## Debug tooling (Debug builds only)
+
+`-snapshot <dir>` renders every screen to PNG through ScreenCaptureKit; `-autorecord <seconds>`
+(optionally `-with-fake-camera`) records the main display headlessly and prints pipeline statistics to
+stderr; `-autoscreenshot` captures the display and a region. They exist so the capture path can be
+verified from a terminal without Screen Recording permission for the terminal itself.
+
 ## Persistence
 
 - `SettingsStore`: `AppSettings` as JSON in `UserDefaults`, validated (clamped) on load.

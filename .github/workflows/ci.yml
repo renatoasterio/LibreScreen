@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    # Xcode 26 is required for the macOS 26 Liquid Glass APIs behind `#available`.
+    runs-on: macos-26
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        run: |
+          ls /Applications | grep -i xcode
+          sudo xcode-select -s "$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)"
+          xcodebuild -version
+
+      - name: Install tooling
+        run: brew install swiftlint swiftformat
+
+      - name: Format check
+        run: swiftformat --lint .
+
+      - name: Lint
+        run: swiftlint lint --strict --config .swiftlint.yml
+
+      - name: Build
+        run: |
+          xcodebuild -project LibreScreen.xcodeproj -scheme LibreScreen -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' CODE_SIGN_IDENTITY=- build | xcbeautify || \
+          xcodebuild -project LibreScreen.xcodeproj -scheme LibreScreen -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' CODE_SIGN_IDENTITY=- build
+
+      - name: Unit tests
+        run: |
+          xcodebuild -project LibreScreen.xcodeproj -scheme LibreScreen \
+            -destination 'platform=macOS,arch=arm64' CODE_SIGN_IDENTITY=- test
+
+      - name: Safety audit (static part)
+        run: .claude/skills/code-audit/scripts/audit.sh --quick
