@@ -26,10 +26,17 @@ struct LibreScreenApp: App {
         }
     }
 
+    /// SwiftUI calls this setter on every graph update; writing an unchanged value would invalidate the
+    /// observed settings and re-trigger the update in a loop, so only real changes are stored.
     private var menuBarInserted: Binding<Bool> {
         Binding(
             get: { appDelegate.container.settings.settings.general.showsMenuBarExtra },
-            set: { appDelegate.container.settings.settings.general.showsMenuBarExtra = $0 }
+            set: { newValue in
+                let store = appDelegate.container.settings
+                if store.settings.general.showsMenuBarExtra != newValue {
+                    store.settings.general.showsMenuBarExtra = newValue
+                }
+            }
         )
     }
 }

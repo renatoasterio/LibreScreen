@@ -56,7 +56,6 @@ final class RecordingPipeline: RecordingCoordinating, @unchecked Sendable {
     private var outputSize: CGSize = .zero
 
     private var latestScreenFrame: ScreenFrame?
-    private var lastComposedBuffer: CVPixelBuffer?
     private var lastComposedScreenTime = CMTime.invalid
     private var lastComposedCameraTime = CMTime.invalid
     private var startTime = CMTime.zero
@@ -222,7 +221,6 @@ final class RecordingPipeline: RecordingCoordinating, @unchecked Sendable {
             self.microphone = microphone
             outputSize = pixelSize
             latestScreenFrame = nil
-            lastComposedBuffer = nil
             lastComposedScreenTime = .invalid
             lastComposedCameraTime = .invalid
             pausedOffset = .zero
@@ -242,21 +240,16 @@ final class RecordingPipeline: RecordingCoordinating, @unchecked Sendable {
 
     // MARK: - Queue-confined work
 
-    /// Constant frame rate: every tick appends a frame. Compositing only happens when the screen or the
-    /// camera changed; otherwise the previous buffer is appended again, which the encoder handles cheaply.
+    /// Constant frame rate: every tick composites into a fresh pool buffer and appends it. Re-appending
+    /// the previous buffer while the encoder still references it made AVFoundation copy it internally
+    /// and memory grew without bound, so each frame gets its own buffer even when nothing changed.
     private func tick() {
         guard state == .recording, let writer, let screen = latestScreenFrame else { return }
         let overlay = request?.overlay
         let camera = overlay?.enabled == true ? cameraSource?.latestFrame : nil
-        let screenChanged = screen.presentationTime != lastComposedScreenTime
-        let cameraChanged = camera.map { $0.presentationTime != lastComposedCameraTime } ?? false
         let time = CMTimeSubtract(CMClockGetTime(CMClockGetHostTimeClock()), pausedOffset)
         statistics.ticks += 1
 
-        if let previous = lastComposedBuffer, !screenChanged, !cameraChanged {
-            count(writer.append(previous, at: time), at: time)
-            return
-        }
         guard let pool = writer.pixelBufferPool else { return }
         var pixelBuffer: CVPixelBuffer?
         guard CVPixelBufferPoolCreatePixelBuffer(nil, pool, &pixelBuffer) == kCVReturnSuccess, let pixelBuffer else { return }
@@ -264,7 +257,6 @@ final class RecordingPipeline: RecordingCoordinating, @unchecked Sendable {
             compositor.compose(screen: screen, camera: camera, overlay: overlay, outputSize: outputSize, into: pixelBuffer)
         }
         count(writer.append(pixelBuffer, at: time), at: time)
-        lastComposedBuffer = pixelBuffer
         lastComposedScreenTime = screen.presentationTime
         if let camera {
             lastComposedCameraTime = camera.presentationTime
@@ -340,7 +332,6 @@ final class RecordingPipeline: RecordingCoordinating, @unchecked Sendable {
                 microphone = nil
                 request = nil
                 latestScreenFrame = nil
-                lastComposedBuffer = nil
                 continuation.resume(returning: session)
             }
         }

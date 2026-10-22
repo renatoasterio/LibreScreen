@@ -14,7 +14,11 @@ final class SettingsStore: SettingsStoring {
     private let defaults: UserDefaults
 
     var settings: AppSettings {
-        didSet { persist() }
+        didSet {
+            if oldValue != settings {
+                persist()
+            }
+        }
     }
 
     init(defaults: UserDefaults) {

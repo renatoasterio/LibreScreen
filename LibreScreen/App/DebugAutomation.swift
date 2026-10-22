@@ -68,6 +68,9 @@ enum DebugAutomation {
         let arguments = ProcessInfo.processInfo.arguments
         var overlay = container.settings.settings.camera
         overlay.enabled = arguments.contains("-with-camera") || arguments.contains("-with-fake-camera")
+        if arguments.contains("-no-blur") {
+            overlay.blurEnabled = false
+        }
         var recorder: any RecordingCoordinating = container.recorder
         var synthetic: SyntheticCameraSource?
         if arguments.contains("-with-fake-camera") {
@@ -122,6 +125,15 @@ enum DebugAutomation {
             try await useCase.start(request)
             report("started \(request.outputURL.lastPathComponent)")
             let half = max(Double(seconds) / 2, 0.5)
+            let monitor = Task { [recorder] in
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(5))
+                    guard !Task.isCancelled, let pipeline = recorder as? RecordingPipeline else { return }
+                    let statistics = await pipeline.statistics()
+                    report("stats: \(statistics.summary)")
+                }
+            }
+            defer { monitor.cancel() }
             try await Task.sleep(for: .seconds(half))
             await recorder.pause()
             let pausedAt = await recorder.elapsedTime()

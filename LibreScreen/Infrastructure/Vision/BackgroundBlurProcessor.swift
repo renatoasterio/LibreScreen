@@ -20,7 +20,10 @@ final class BackgroundBlurProcessor {
         return request
     }()
 
+    private let context = CIContext(options: [.cacheIntermediates: false, .name: "LibreScreen.mask"])
     private var previousMask: CIImage?
+    private var maskPool: CVPixelBufferPool?
+    private var maskPoolSize: CGSize = .zero
     private var slowFrames = 0
 
     func process(_ image: CIImage, pixelBuffer: CVPixelBuffer, intensity: Double) -> CIImage {
@@ -41,6 +44,7 @@ final class BackgroundBlurProcessor {
 
     func reset() {
         previousMask = nil
+        maskPool = nil
         slowFrames = 0
         request.qualityLevel = .balanced
     }
@@ -66,7 +70,37 @@ final class BackgroundBlurProcessor {
             mix.time = 0.7
             mask = mix.outputImage?.cropped(to: extent) ?? mask
         }
-        return mask
+        // Materialise the mask: keeping the lazy Core Image graph would chain every previous frame
+        // into the next one and grow memory without bound.
+        return materialised(mask, size: extent.size) ?? mask
+    }
+
+    private func materialised(_ mask: CIImage, size: CGSize) -> CIImage? {
+        let target = CGSize(width: max((size.width / 2).rounded(), 1), height: max((size.height / 2).rounded(), 1))
+        if maskPool == nil || maskPoolSize != target {
+            var pool: CVPixelBufferPool?
+            let attributes: [String: Any] = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+                kCVPixelBufferWidthKey as String: Int(target.width),
+                kCVPixelBufferHeightKey as String: Int(target.height),
+                kCVPixelBufferMetalCompatibilityKey as String: true
+            ]
+            CVPixelBufferPoolCreate(
+                nil,
+                [kCVPixelBufferPoolMinimumBufferCountKey as String: 2] as CFDictionary,
+                attributes as CFDictionary,
+                &pool
+            )
+            maskPool = pool
+            maskPoolSize = target
+        }
+        guard let maskPool else { return nil }
+        var buffer: CVPixelBuffer?
+        guard CVPixelBufferPoolCreatePixelBuffer(nil, maskPool, &buffer) == kCVReturnSuccess, let buffer else { return nil }
+        let scale = target.width / size.width
+        let scaled = mask.transformed(by: CGAffineTransform(scaleX: scale, y: target.height / size.height))
+        context.render(scaled, to: buffer, bounds: CGRect(origin: .zero, size: target), colorSpace: nil)
+        return CIImage(cvPixelBuffer: buffer).transformed(by: CGAffineTransform(scaleX: 1 / scale, y: size.height / target.height))
     }
 
     private func adaptQuality(elapsed: TimeInterval) {
