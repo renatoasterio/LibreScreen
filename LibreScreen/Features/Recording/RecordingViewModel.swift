@@ -203,10 +203,27 @@ final class RecordingViewModel {
         eventObserver = nil
     }
 
+    /// A capture that dies mid-way (display unplugged, window closed) still keeps what was recorded.
     private func handleFailure(_ error: LibreScreenError) async {
         stopObserving()
         presenter?.hideRecordingHUD()
-        await recorder.cancel()
+        phase = .finishing
+        do {
+            let result = try await recorder.stop()
+            let item = CaptureItem(
+                kind: .recording,
+                url: result.url,
+                createdAt: result.startedAt,
+                duration: result.duration,
+                pixelSize: result.pixelSize,
+                sourceSummary: currentSource?.summary ?? ""
+            )
+            await captures.add(item)
+            didStoreItem?(item)
+            presenter?.showCaptureResult(item)
+        } catch {
+            await recorder.cancel()
+        }
         phase = .idle
         report(error)
     }
