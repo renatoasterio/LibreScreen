@@ -29,3 +29,6 @@ Package.resolved
 *.log
 audit-report.md
 coverage/
+
+# Release archives
+dist/
