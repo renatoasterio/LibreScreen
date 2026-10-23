@@ -6,32 +6,33 @@ import SwiftUI
 
 /// Liquid Glass on macOS 26, a translucent material with a hairline border on macOS 15.
 /// The only place in the app that branches on the OS version for surfaces.
+///
+/// `tint` is drawn as a light wash over plain glass rather than through `Glass.tint`: a tinted glass
+/// becomes a saturated accent-coloured slab on macOS 26/27, which hid accent-coloured text and icons.
 struct GlassSurface<S: Shape>: ViewModifier {
+    static var tintOpacity: Double {
+        0.16
+    }
+
     let shape: S
     let tint: Color?
     let interactive: Bool
 
     func body(content: Content) -> some View {
         if #available(macOS 26, *) {
-            content.glassEffect(glass, in: shape)
+            content
+                .background(wash)
+                .glassEffect(interactive ? .regular.interactive() : .regular, in: shape)
         } else {
             content
-                .background(tint?.opacity(0.18) ?? Color.clear, in: shape)
+                .background(wash)
                 .background(.regularMaterial, in: shape)
                 .overlay(shape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
         }
     }
 
-    @available(macOS 26, *)
-    private var glass: Glass {
-        var glass = Glass.regular
-        if let tint {
-            glass = glass.tint(tint)
-        }
-        if interactive {
-            glass = glass.interactive()
-        }
-        return glass
+    private var wash: some View {
+        shape.fill(tint?.opacity(Self.tintOpacity) ?? Color.clear)
     }
 }
 

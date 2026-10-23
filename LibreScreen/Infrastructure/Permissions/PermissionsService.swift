@@ -56,19 +56,24 @@ final class PermissionsService: PermissionsChecking {
         NSWorkspace.shared.open(url)
     }
 
+    /// Starts a second instance and quits this one only once the new one is confirmed running, so the
+    /// user ends up with exactly one LibreScreen (macOS applies Screen Recording on the next launch).
     @MainActor
     func relaunchApplication() {
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.createsNewApplicationInstance = true
-        NSWorkspace.shared.openApplication(at: Bundle.main.bundleURL, configuration: configuration) { _, error in
-            if let error {
-                Log.permissions.error("Relaunch failed: \(error.localizedDescription, privacy: .public)")
+        configuration.activates = true
+        NSWorkspace.shared.openApplication(at: Bundle.main.bundleURL, configuration: configuration) { application, error in
+            Task { @MainActor in
+                guard application != nil, error == nil else {
+                    Log.permissions.error("Relaunch failed: \(error?.localizedDescription ?? "unknown", privacy: .public)")
+                    return
+                }
+                NSApp.terminate(nil)
+                // `terminate` can be refused (for example by a sheet); never leave two instances behind.
+                try? await Task.sleep(for: .milliseconds(500))
+                exit(0)
             }
-        }
-        Task { @MainActor in
-            // Give the new instance a moment to launch before this one quits.
-            try? await Task.sleep(for: .milliseconds(300))
-            NSApp.terminate(nil)
         }
     }
 
