@@ -38,6 +38,18 @@ enum DebugSnapshots {
                 await capture(view, appearance: appearance, to: directory.appending(path: "\(name)-\(suffix).png"))
             }
         }
+        // Bubble preview with the synthetic camera: the gradient must be orange at the bottom-left.
+        let synthetic = SyntheticCameraSource(applyBlur: false)
+        synthetic.start()
+        var bubbleSettings = CameraOverlaySettings()
+        bubbleSettings.shape = .roundedRectangle
+        let bubble = CameraBubbleView(source: synthetic, settings: bubbleSettings, side: 260)
+        await capture(
+            AnyView(bubble.padding(40).background(Color.gray)),
+            appearance: .aqua,
+            to: directory.appending(path: "bubble-light.png")
+        )
+        synthetic.stop()
         if let editor = sampleEditor(container: container) {
             await capture(
                 AnyView(EditorView(model: editor).frame(width: 1100, height: 720)),

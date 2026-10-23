@@ -105,7 +105,9 @@ final class CameraMetalView: MTKView {
             pixelFormat: colorPixelFormat,
             commandBuffer: commandBuffer
         ) { drawable.texture }
-        destination.isFlipped = false
+        // Core Image uses a bottom-left origin while Metal textures are top-down; without the flip the
+        // preview is upside down (the file path renders into CVPixelBuffers, which Core Image flips itself).
+        destination.isFlipped = true
         destination.alphaMode = .premultiplied
         do {
             try context.startTask(toClear: destination)
