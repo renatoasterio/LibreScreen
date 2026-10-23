@@ -44,14 +44,17 @@
 ## Building
 
 ```bash
-brew install xcodegen swiftlint swiftformat   # one-time tooling
-xcodegen generate                             # regenerates LibreScreen.xcodeproj from project.yml
-xcodebuild -scheme LibreScreen -configuration Debug build
+make tools      # one-time: xcodegen, swiftlint, swiftformat via Homebrew
+make run        # Debug build and launch
+make test       # unit tests
+make release    # Release build, ad-hoc signed, zipped into dist/ with a SHA-256
+make install    # Release build copied to /Applications
+make help       # every target (lint, format, audit, smoke, snapshot, clean…)
 ```
 
-Or open `LibreScreen.xcodeproj` in Xcode and press ⌘R. The first recording asks for the Screen Recording permission; camera and microphone permissions are requested only when you turn those features on. macOS requires a relaunch after granting Screen Recording; the app offers it.
+Or open `LibreScreen.xcodeproj` in Xcode and press ⌘R (run `make generate` after adding files outside Xcode). The first recording asks for the Screen Recording permission; camera and microphone permissions are requested only when you turn those features on. macOS requires a relaunch after granting Screen Recording; the app offers it.
 
-Release builds are produced by `scripts/release.sh`, which writes an ad-hoc signed `dist/LibreScreen-<version>.zip`. Because the build is not notarized, the first launch needs right-click › Open.
+Release builds come from `make release` (or `scripts/release.sh`), which writes an ad-hoc signed `dist/LibreScreen-<version>.zip`. Because the build is not notarized, the first launch needs right-click › Open.
 
 ### Default global shortcuts
 

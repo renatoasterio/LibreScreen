@@ -6,19 +6,20 @@ Minimum macOS 15, Apple Silicon only, no App Sandbox, hardened runtime on, zero 
 ## Commands
 
 ```bash
-xcodegen generate                                  # regenerate LibreScreen.xcodeproj from project.yml (source of truth)
-xcodebuild -scheme LibreScreen -configuration Debug build
-xcodebuild -scheme LibreScreen test
-swiftformat . && swiftlint --strict                # style + correctness
-.claude/skills/code-audit/scripts/audit.sh         # full audit (lint, format, analyzer, safety greps)
+make run          # Debug build + launch (make build / make test / make lint / make format / make audit)
+make release      # Release build, ad-hoc signed, zipped into dist/ (make install copies it to /Applications)
+make smoke        # headless pipeline check: -autorecord with a synthetic webcam, then -autoscreenshot
+make generate     # regenerate LibreScreen.xcodeproj from project.yml (source of truth) after adding files
 ```
+
+The Makefile wraps `xcodegen`, `xcodebuild`, `swiftformat`, `swiftlint` and `.claude/skills/code-audit/scripts/audit.sh`.
 
 Run `/code-audit` (project skill) at the end of every milestone and before any commit that touches `Infrastructure`.
 
-Build products must stay in Xcode's default DerivedData (`~/Library/Developer/Xcode/DerivedData`). This checkout lives
-in a folder synced by a File Provider (iCloud/Documents), which stamps `com.apple.FinderInfo` on new bundles and makes
-`codesign` fail with "resource fork, Finder information, or similar detritus not allowed". Never pass
-`-derivedDataPath` pointing inside the repository.
+Build products must stay outside the repository (the Makefile uses `~/Library/Developer/Xcode/DerivedData/LibreScreen-make`).
+A checkout inside a File-Provider-synced folder (iCloud/Documents) gets `com.apple.FinderInfo` stamped on new bundles and
+`codesign` fails with "resource fork, Finder information, or similar detritus not allowed". Never pass `-derivedDataPath`
+pointing inside the repository.
 
 ## Architecture (see docs/ARCHITECTURE.md)
 
