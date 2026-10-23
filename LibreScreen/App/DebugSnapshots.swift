@@ -134,8 +134,11 @@ enum DebugSnapshots {
         window.sharingType = .readOnly
         window.center()
         window.makeKeyAndOrderFront(nil)
-        // Let `.task` modifiers, layout and the glass renderer settle.
+        // Let `.task` modifiers, layout and the glass renderer settle, then size the window to its content:
+        // a second instance of the same view can report a near-zero size until its first layout pass.
         try? await Task.sleep(for: .milliseconds(700))
+        window.setContentSize(hosting.view.fittingSize)
+        try? await Task.sleep(for: .milliseconds(300))
         defer { window.orderOut(nil) }
 
         do {
