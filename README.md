@@ -27,7 +27,7 @@
 
 - **Record the full display, a single window or a custom region**, with multi-monitor support.
 - **Webcam overlay composed live** into a single file: circular or rounded bubble, drag it to any corner, see exactly what will be recorded.
-- **Background blur** for the webcam, powered by on-device person segmentation (Vision). No cloud, no network.
+- **Background blur or a custom background image** behind you, powered by on-device person segmentation (Vision). No cloud, no network.
 - **Screen-only recording** when you don't want the camera.
 - **System audio and microphone** captured as separate tracks.
 - **Screenshots** of a display, window or region at full Retina resolution.

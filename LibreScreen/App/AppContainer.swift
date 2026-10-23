@@ -21,6 +21,7 @@ final class AppContainer {
     let camera: any CameraService
     let screenshots: any Screenshotting
     let encoder: any ImageEncoding
+    let backgrounds: any BackgroundImageStoring
 
     let recording: RecordingViewModel
     let screenshot: ScreenshotViewModel
@@ -28,6 +29,7 @@ final class AppContainer {
     let permissionsViewModel: PermissionsViewModel
     let cameraCoordinator: CameraSessionCoordinator
     let hotkeys: HotkeyCoordinator
+    let backgroundLibrary: BackgroundLibraryViewModel
 
     @ObservationIgnored
     private(set) lazy var windows = WindowCoordinator(container: self)
@@ -44,7 +46,8 @@ final class AppContainer {
         camera: any CameraService,
         screenshots: any Screenshotting,
         encoder: any ImageEncoding,
-        hotkeyRegistrar: any HotkeyRegistering
+        hotkeyRegistrar: any HotkeyRegistering,
+        backgrounds: any BackgroundImageStoring
     ) {
         self.settings = settings
         self.permissions = permissions
@@ -57,6 +60,7 @@ final class AppContainer {
         self.camera = camera
         self.screenshots = screenshots
         self.encoder = encoder
+        self.backgrounds = backgrounds
 
         let startRecording = StartRecordingUseCase(permissions: permissions, recorder: recorder, output: output)
         recording = RecordingViewModel(useCase: startRecording, recorder: recorder, captures: captures, settings: settings)
@@ -80,6 +84,7 @@ final class AppContainer {
         )
         permissionsViewModel = PermissionsViewModel(permissions: permissions)
         hotkeys = HotkeyCoordinator(registrar: hotkeyRegistrar, settings: settings)
+        backgroundLibrary = BackgroundLibraryViewModel(store: backgrounds, settings: settings)
         cameraCoordinator = CameraSessionCoordinator(
             camera: camera,
             settings: settings,
@@ -116,7 +121,8 @@ final class AppContainer {
             camera: camera,
             screenshots: ScreenshotService(),
             encoder: ImageFileWriter(),
-            hotkeyRegistrar: CarbonHotkeyService()
+            hotkeyRegistrar: CarbonHotkeyService(),
+            backgrounds: BackgroundLibrary()
         )
     }
 }

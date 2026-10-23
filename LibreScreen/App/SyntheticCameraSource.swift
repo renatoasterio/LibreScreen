@@ -11,21 +11,26 @@ import Foundation
 import Synchronization
 
 /// Debug-only stand-in for the webcam: a moving test pattern at 30 fps, optionally run through the
-/// real `BackgroundBlurProcessor`. Lets the compositing path be exercised without a camera permission.
+/// real `CameraBackgroundProcessor`. Lets the compositing path be exercised without a camera permission.
 final class SyntheticCameraSource: CameraFrameSource, @unchecked Sendable {
     private let queue = DispatchQueue(label: "br.com.asoft.LibreScreen.synthetic-camera")
     private let context = CIContext(options: [.cacheIntermediates: false])
-    private let blur = BackgroundBlurProcessor()
+    private let processor = CameraBackgroundProcessor()
     private let size = CGSize(width: 1280, height: 720)
     private var pool: CVPixelBufferPool?
     private var timer: DispatchSourceTimer?
     private var frameIndex = 0
-    private let applyBlur: Bool
+    private let options: CameraProcessingOptions
     private let latest = Mutex<CameraFrame?>(nil)
     private var continuations: [UUID: AsyncStream<CameraFrame>.Continuation] = [:]
 
-    init(applyBlur: Bool) {
-        self.applyBlur = applyBlur
+    init(background: CameraBackgroundMode, backgroundImageURL: URL? = nil) {
+        options = CameraProcessingOptions(
+            background: background,
+            backgroundImageURL: backgroundImageURL,
+            blurIntensity: 0.6,
+            mirrored: false
+        )
     }
 
     var latestFrame: CameraFrame? {
@@ -75,8 +80,8 @@ final class SyntheticCameraSource: CameraFrameSource, @unchecked Sendable {
         guard let buffer = pooledBuffer() else { return }
         context.render(image, to: buffer, bounds: bounds, colorSpace: CGColorSpace(name: CGColorSpace.sRGB))
         image = CIImage(cvPixelBuffer: buffer)
-        if applyBlur {
-            image = blur.process(image, pixelBuffer: buffer, intensity: 0.6)
+        if options.background != .none {
+            image = processor.process(image, pixelBuffer: buffer, options: options)
             guard let processed = pooledBuffer() else { return }
             context.render(image, to: processed, bounds: bounds, colorSpace: CGColorSpace(name: CGColorSpace.sRGB))
             image = CIImage(cvPixelBuffer: processed)

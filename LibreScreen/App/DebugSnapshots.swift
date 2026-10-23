@@ -39,7 +39,7 @@ enum DebugSnapshots {
             }
         }
         // Bubble preview with the synthetic camera: the gradient must be orange at the bottom-left.
-        let synthetic = SyntheticCameraSource(applyBlur: false)
+        let synthetic = SyntheticCameraSource(background: .none)
         synthetic.start()
         var bubbleSettings = CameraOverlaySettings()
         bubbleSettings.shape = .roundedRectangle

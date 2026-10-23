@@ -231,6 +231,26 @@
         }
       }
     },
+    "Adicionar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        }
+      }
+    },
+    "Adicionar imagens…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Images…"
+          }
+        }
+      }
+    },
     "Adicionar marcação" : {
       "localizations" : {
         "en" : {
@@ -257,6 +277,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add Text"
+          }
+        }
+      }
+    },
+    "Adicione uma imagem para usar como fundo; até lá o fundo será desfocado." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add an image to use as the background; until then the background is blurred."
           }
         }
       }
@@ -861,12 +891,12 @@
         }
       }
     },
-    "Desfocar fundo" : {
+    "Desfoque" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blur background"
+            "value" : "Blur"
           }
         }
       }
@@ -947,6 +977,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose another folder in Settings › General."
+          }
+        }
+      }
+    },
+    "Escolha uma ou mais imagens para usar como fundo da câmera." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose one or more images to use as the camera background."
           }
         }
       }
@@ -1057,6 +1097,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Background"
+          }
+        }
+      }
+    },
+    "Fundo %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Background %@"
           }
         }
       }
@@ -1277,6 +1327,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "HEVC (smaller)"
+          }
+        }
+      }
+    },
+    "Imagem" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
           }
         }
       }
@@ -1627,6 +1687,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No display found"
+          }
+        }
+      }
+    },
+    "Nenhuma imagem adicionada ainda." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No images added yet."
           }
         }
       }
@@ -2087,6 +2157,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Redo"
+          }
+        }
+      }
+    },
+    "Remover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
           }
         }
       }

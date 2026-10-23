@@ -6,18 +6,25 @@ import Foundation
 
 /// Per-frame processing applied to the webcam before preview and compositing.
 struct CameraProcessingOptions: Sendable, Equatable {
-    var blurEnabled: Bool
+    var background: CameraBackgroundMode
+    var backgroundImageURL: URL?
     var blurIntensity: Double
     var mirrored: Bool
 
-    init(blurEnabled: Bool, blurIntensity: Double, mirrored: Bool) {
-        self.blurEnabled = blurEnabled
+    init(background: CameraBackgroundMode, backgroundImageURL: URL? = nil, blurIntensity: Double, mirrored: Bool) {
+        self.background = background
+        self.backgroundImageURL = backgroundImageURL
         self.blurIntensity = blurIntensity
         self.mirrored = mirrored
     }
 
     init(settings: CameraOverlaySettings) {
-        self.init(blurEnabled: settings.blurEnabled, blurIntensity: settings.blurIntensity, mirrored: settings.mirrored)
+        self.init(
+            background: settings.background,
+            backgroundImageURL: settings.backgroundImageURL,
+            blurIntensity: settings.blurIntensity,
+            mirrored: settings.mirrored
+        )
     }
 }
 

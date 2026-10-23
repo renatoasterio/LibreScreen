@@ -34,7 +34,11 @@ struct DeviceControls: View {
                 }
             }
             Divider()
-            Toggle("Desfocar fundo", isOn: $store.settings.camera.blurEnabled)
+            Picker("Fundo", selection: $store.settings.camera.background) {
+                Text("Nenhum").tag(CameraBackgroundMode.none)
+                Text("Desfoque").tag(CameraBackgroundMode.blur)
+                Text("Imagem").tag(CameraBackgroundMode.image)
+            }
             Toggle("Espelhar imagem", isOn: $store.settings.camera.mirrored)
         }
     }

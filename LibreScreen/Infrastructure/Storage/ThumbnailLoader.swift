@@ -27,6 +27,16 @@ actor ThumbnailLoader {
         return image
     }
 
+    /// Preview of any image file (background library).
+    func thumbnail(forImageAt url: URL, maxPixelSize: CGFloat = 320) -> CGImage? {
+        if let cached = cache[url] {
+            return cached
+        }
+        guard let image = Self.imageThumbnail(url: url, maxPixelSize: maxPixelSize) else { return nil }
+        store(image, for: url)
+        return image
+    }
+
     func invalidate(_ url: URL) {
         cache[url] = nil
         order.removeAll { $0 == url }

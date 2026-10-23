@@ -14,11 +14,11 @@ final class CameraCaptureService: NSObject, CameraCapturing, CameraFrameSource, 
     private let queue = DispatchQueue(label: "br.com.asoft.LibreScreen.camera", qos: .userInteractive)
     private let session = AVCaptureSession()
     private let output = AVCaptureVideoDataOutput()
-    private let blur = BackgroundBlurProcessor()
+    private let processor = CameraBackgroundProcessor()
     private let context: CIContext
     private let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)
     private var input: AVCaptureDeviceInput?
-    private var options = CameraProcessingOptions(blurEnabled: false, blurIntensity: 0, mirrored: true)
+    private var options = CameraProcessingOptions(background: .none, blurIntensity: 0, mirrored: true)
     private var pool: CVPixelBufferPool?
     private var poolSize: CGSize = .zero
 
@@ -73,7 +73,7 @@ final class CameraCaptureService: NSObject, CameraCapturing, CameraFrameSource, 
                 do {
                     try configure(deviceID: deviceID)
                     self.options = options
-                    blur.reset()
+                    processor.reset()
                     session.startRunning()
                     Log.camera.info("Camera started")
                     continuation.resume()
@@ -182,14 +182,9 @@ extension CameraCaptureService: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
         autoreleasepool {
-            var image = CIImage(cvPixelBuffer: pixelBuffer)
-            let extent = image.extent
-            if options.blurEnabled {
-                image = blur.process(image, pixelBuffer: pixelBuffer, intensity: options.blurIntensity)
-            }
-            if options.mirrored {
-                image = image.transformed(by: CGAffineTransform(scaleX: -1, y: 1).translatedBy(x: -extent.width, y: 0))
-            }
+            let source = CIImage(cvPixelBuffer: pixelBuffer)
+            let extent = source.extent
+            let image = processor.process(source, pixelBuffer: pixelBuffer, options: options)
             guard let target = pooledBuffer(for: extent.size) else { return }
             context.render(image, to: target, bounds: CGRect(origin: .zero, size: extent.size), colorSpace: colorSpace)
             publish(CameraFrame(image: CIImage(cvPixelBuffer: target), presentationTime: sampleBuffer.presentationTimeStamp))

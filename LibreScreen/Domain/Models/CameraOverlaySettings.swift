@@ -44,6 +44,17 @@ enum OverlayCorner: String, Codable, CaseIterable, Sendable, Identifiable {
     }
 }
 
+/// What replaces the room behind the person.
+enum CameraBackgroundMode: String, Codable, CaseIterable, Sendable, Identifiable {
+    case none
+    case blur
+    case image
+
+    var id: String {
+        rawValue
+    }
+}
+
 /// How the webcam bubble looks and where it sits. Shared by the live preview and the compositor,
 /// so what the user sees on screen is exactly what lands in the file.
 struct CameraOverlaySettings: Codable, Sendable, Equatable {
@@ -56,11 +67,20 @@ struct CameraOverlaySettings: Codable, Sendable, Equatable {
     var size: OverlaySize = .medium
     var corner: OverlayCorner = .bottomRight
     var mirrored = true
-    var blurEnabled = true
+    var background: CameraBackgroundMode = .blur
+    /// Library file used when `background` is `.image`.
+    var backgroundImageURL: URL?
     /// 0 (subtle) … 1 (strong).
     var blurIntensity: Double = 0.6
     var showsBorder = true
     var showsShadow = true
+
+    private enum CodingKeys: String, CodingKey {
+        case enabled, deviceID, shape, size, corner, mirrored, background, backgroundImageURL
+        case blurIntensity, showsBorder, showsShadow
+        /// Pre-1.0 settings stored a boolean instead of `background`.
+        case blurEnabled
+    }
 
     init() {}
 
@@ -72,10 +92,30 @@ struct CameraOverlaySettings: Codable, Sendable, Equatable {
         size = try container.decodeIfPresent(OverlaySize.self, forKey: .size) ?? .medium
         corner = try container.decodeIfPresent(OverlayCorner.self, forKey: .corner) ?? .bottomRight
         mirrored = try container.decodeIfPresent(Bool.self, forKey: .mirrored) ?? true
-        blurEnabled = try container.decodeIfPresent(Bool.self, forKey: .blurEnabled) ?? true
+        if let mode = try container.decodeIfPresent(CameraBackgroundMode.self, forKey: .background) {
+            background = mode
+        } else {
+            background = try container.decodeIfPresent(Bool.self, forKey: .blurEnabled) ?? true ? .blur : .none
+        }
+        backgroundImageURL = try container.decodeIfPresent(URL.self, forKey: .backgroundImageURL)
         blurIntensity = try container.decodeIfPresent(Double.self, forKey: .blurIntensity) ?? 0.6
         showsBorder = try container.decodeIfPresent(Bool.self, forKey: .showsBorder) ?? true
         showsShadow = try container.decodeIfPresent(Bool.self, forKey: .showsShadow) ?? true
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(enabled, forKey: .enabled)
+        try container.encodeIfPresent(deviceID, forKey: .deviceID)
+        try container.encode(shape, forKey: .shape)
+        try container.encode(size, forKey: .size)
+        try container.encode(corner, forKey: .corner)
+        try container.encode(mirrored, forKey: .mirrored)
+        try container.encode(background, forKey: .background)
+        try container.encodeIfPresent(backgroundImageURL, forKey: .backgroundImageURL)
+        try container.encode(blurIntensity, forKey: .blurIntensity)
+        try container.encode(showsBorder, forKey: .showsBorder)
+        try container.encode(showsShadow, forKey: .showsShadow)
     }
 
     func validated() -> CameraOverlaySettings {

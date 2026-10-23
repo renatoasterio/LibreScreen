@@ -228,15 +228,31 @@ struct CameraSettingsTab: View {
     private var backgroundSection: some View {
         @Bindable var store = container.settings
         return Section("Fundo") {
-            Toggle("Desfocar fundo", isOn: $store.settings.camera.blurEnabled)
-            Slider(value: $store.settings.camera.blurIntensity, in: 0 ... 1) {
-                Text("Intensidade")
-            } minimumValueLabel: {
-                Image(systemName: "circle.lefthalf.filled")
-            } maximumValueLabel: {
-                Image(systemName: "circle.fill")
+            Picker("Fundo", selection: $store.settings.camera.background) {
+                Text("Nenhum").tag(CameraBackgroundMode.none)
+                Text("Desfoque").tag(CameraBackgroundMode.blur)
+                Text("Imagem").tag(CameraBackgroundMode.image)
             }
-            .disabled(!store.settings.camera.blurEnabled)
+            .pickerStyle(.segmented)
+            switch store.settings.camera.background {
+            case .blur:
+                Slider(value: $store.settings.camera.blurIntensity, in: 0 ... 1) {
+                    Text("Intensidade")
+                } minimumValueLabel: {
+                    Image(systemName: "circle.lefthalf.filled")
+                } maximumValueLabel: {
+                    Image(systemName: "circle.fill")
+                }
+            case .image:
+                BackgroundLibraryView(model: container.backgroundLibrary, thumbnails: container.thumbnails)
+                if store.settings.camera.backgroundImageURL == nil {
+                    Text("Adicione uma imagem para usar como fundo; até lá o fundo será desfocado.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            case .none:
+                EmptyView()
+            }
             Text("A separação entre você e o fundo é feita no próprio Mac, com o Vision.")
                 .font(.caption)
                 .foregroundStyle(.secondary)

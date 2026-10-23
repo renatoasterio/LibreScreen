@@ -69,20 +69,24 @@ enum DebugAutomation {
         var overlay = container.settings.settings.camera
         overlay.enabled = arguments.contains("-with-camera") || arguments.contains("-with-fake-camera")
         if arguments.contains("-no-blur") {
-            overlay.blurEnabled = false
+            overlay.background = .none
+        }
+        if let index = arguments.firstIndex(of: "-background-image"), arguments.indices.contains(index + 1) {
+            overlay.background = .image
+            overlay.backgroundImageURL = URL(fileURLWithPath: arguments[index + 1])
         }
         var recorder: any RecordingCoordinating = container.recorder
         var synthetic: SyntheticCameraSource?
         if arguments.contains("-with-fake-camera") {
-            let source = SyntheticCameraSource(applyBlur: overlay.blurEnabled)
+            let source = SyntheticCameraSource(background: overlay.background, backgroundImageURL: overlay.backgroundImageURL)
             source.start()
             synthetic = source
             recorder = RecordingPipeline(cameraSource: source)
-            report("synthetic camera started (blur=\(overlay.blurEnabled))")
+            report("synthetic camera started (background=\(overlay.background.rawValue))")
         } else if overlay.enabled {
             do {
                 try await container.camera.start(deviceID: overlay.deviceID, options: CameraProcessingOptions(settings: overlay))
-                report("camera started (blur=\(overlay.blurEnabled))")
+                report("camera started (background=\(overlay.background.rawValue))")
             } catch {
                 report("ERROR camera failed: \(error.localizedDescription)")
                 overlay.enabled = false

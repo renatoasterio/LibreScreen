@@ -26,6 +26,17 @@ struct AppSettingsTests {
         #expect(decoded.general.showsInDock)
     }
 
+    @Test func legacyBlurFlagMigratesToBackgroundMode() throws {
+        let legacyOff = #"{"camera":{"blurEnabled":false}}"#
+        #expect(try JSONDecoder().decode(AppSettings.self, from: Data(legacyOff.utf8)).camera.background == .none)
+        let legacyOn = #"{"camera":{"blurEnabled":true}}"#
+        #expect(try JSONDecoder().decode(AppSettings.self, from: Data(legacyOn.utf8)).camera.background == .blur)
+        let modern = #"{"camera":{"background":"image","backgroundImageURL":"file:///tmp/bg.png"}}"#
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: Data(modern.utf8))
+        #expect(decoded.camera.background == .image)
+        #expect(decoded.camera.backgroundImageURL?.lastPathComponent == "bg.png")
+    }
+
     @Test func validationDropsInvalidHotkeysAndCountdowns() {
         var settings = AppSettings()
         settings.recording.countdownSeconds = 42
