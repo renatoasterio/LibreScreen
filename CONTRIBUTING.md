@@ -1,18 +1,39 @@
 # Contributing to LibreScreen
 
-Thanks for helping! This document explains how the project is organised and what a pull request needs.
+Thanks for helping! This document explains the ways to take part, how the project is organised and what a pull
+request needs. Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Ways to contribute
+
+- **Report a bug** with the [bug report form](https://github.com/renatoasterio/LibreScreen/issues/new/choose). Your
+  macOS version, Mac model and display setup make it much easier to reproduce.
+- **Propose an idea** in [Discussions › Ideas](https://github.com/renatoasterio/LibreScreen/discussions/categories/ideas)
+  before writing a large change, so the design can be agreed first.
+- **Translate the app** (see [Adding a language](#adding-a-language)).
+- **Improve the docs**, including `README.pt-BR.md`, which mirrors `README.md`.
+- **Send code.** Issues labelled
+  [`good first issue`](https://github.com/renatoasterio/LibreScreen/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+  and [`help wanted`](https://github.com/renatoasterio/LibreScreen/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+  are the best places to start.
 
 ## Setup
 
+You need macOS 15 or later, an Apple Silicon Mac and Xcode 26.5 or later.
+
 ```bash
-brew install xcodegen swiftlint swiftformat
-xcodegen generate
-open LibreScreen.xcodeproj
+make tools      # one-time: xcodegen, swiftlint and swiftformat through Homebrew
+make run        # Debug build and launch
+make test       # unit tests
+make help       # every target
 ```
 
 `project.yml` is the source of truth for the Xcode project. If you add, move or
-rename files outside Xcode, run `xcodegen generate` again and commit the
-regenerated `LibreScreen.xcodeproj`.
+rename files outside Xcode, run `make generate` and commit the regenerated
+`LibreScreen.xcodeproj`.
+
+Build products stay outside the repository: the Makefile uses a DerivedData
+folder under `~/Library/Developer/Xcode/DerivedData`. Do not pass a
+`-derivedDataPath` inside the checkout.
 
 ## Ground rules
 
@@ -27,22 +48,54 @@ regenerated `LibreScreen.xcodeproj`.
   bounded, in which case add a `// lifetime:` comment explaining why.
 - Permissions are requested only inside `PermissionsService` and only in
   response to a user action.
+- No networking, telemetry, process spawning or dynamic code loading. These are
+  the guarantees in `SECURITY.md`, and the audit fails when they are broken.
 - All user-facing text goes through the String Catalog
   (`LibreScreen/Resources/Localizable.xcstrings`) with Portuguese (Brazil) as
   the source language and an English translation.
 - Public types and non-obvious decisions get a short doc comment. Comments
   explain *why*, not *what*.
 
+`CLAUDE.md` holds the same rules in the form AI coding agents read. If you use
+one, point it at that file.
+
+## Checking your work
+
+```bash
+make format     # apply SwiftFormat
+make lint       # SwiftFormat in lint mode + SwiftLint strict
+make test       # unit tests
+make audit      # lint, static analyzer and the project's safety scans
+make smoke      # headless recording with a synthetic webcam, then screenshots
+make snapshot   # renders every screen to PNG, in light and dark
+```
+
+`make smoke` and `make snapshot` use Debug-only launch arguments and need the
+Debug build to have the Screen Recording permission. They let you verify the
+capture path and the UI from a terminal.
+
 ## Before you open a pull request
 
-1. `swiftformat .` and `swiftlint --strict` report nothing.
-2. `xcodebuild -scheme LibreScreen test` passes.
-3. `.claude/skills/code-audit/scripts/audit.sh` reports no high-severity
-   findings (or your PR explains why a finding is a false positive).
-4. New logic in `Domain`, `UseCases` or ViewModels comes with Swift Testing
+1. `make lint` reports nothing and `make test` passes.
+2. `make audit` reports no high-severity findings (or your PR explains why a
+   finding is a false positive).
+3. New logic in `Domain`, `UseCases` or ViewModels comes with Swift Testing
    tests using the fakes in `LibreScreenTests/Fakes`.
+4. UI changes include before and after screenshots in light and dark
+   appearance (`make snapshot` produces them).
 5. The PR description says what changed, why, and how you verified it
    manually (which display, camera, permissions state).
+
+## Adding a language
+
+1. Open `LibreScreen/Resources/Localizable.xcstrings` in Xcode and add the
+   language with the **+** button. Portuguese (Brazil) is the source language,
+   and the English column is a good reference.
+2. Translate every string. Keep placeholders such as `%@` and `%lld` intact.
+3. Add the language code to `CFBundleLocalizations` in
+   `LibreScreen/Resources/Info.plist`.
+4. Run the app in the new language and check that nothing is truncated:
+   `open -a LibreScreen --args -AppleLanguages '(fr)'`.
 
 ## Commit messages
 

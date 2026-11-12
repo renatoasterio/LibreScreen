@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or help
+    url: https://github.com/renatoasterio/LibreScreen/discussions/categories/q-a
+    about: Ask how something works or get help building and using LibreScreen.
+  - name: Idea
+    url: https://github.com/renatoasterio/LibreScreen/discussions/categories/ideas
+    about: Float an idea and shape it with others before it becomes a feature request.
+  - name: Security vulnerability
+    url: https://github.com/renatoasterio/LibreScreen/security/policy
+    about: Report security problems privately, as described in the security policy.

@@ -80,7 +80,7 @@ release: $(PROJECT)/project.pbxproj ## Release build, ad-hoc signed, zipped into
 	ditto -c -k --keepParent "$(DERIVED_DATA)/Build/Products/Release/LibreScreen.app" "$(ZIP)"
 	shasum -a 256 "$(ZIP)" | tee "$(ZIP).sha256"
 	@echo "Release archive: $(ZIP)"
-	@echo "The app is ad-hoc signed: first launch needs right-click › Open."
+	@echo "The app is ad-hoc signed: a downloaded copy is allowed once in System Settings › Privacy & Security › Open Anyway."
 
 install: ## Release build copied to /Applications (replaces an existing copy)
 	$(MAKE) release

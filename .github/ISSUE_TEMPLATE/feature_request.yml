@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose something LibreScreen should do.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For an early idea that still needs discussion, a thread in Discussions › Ideas is the better place.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation you are in, rather than the solution. What is slow, missing or awkward today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to see?
+      description: How it could look and behave. Sketches and examples from other Mac apps help.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Project fit
+      description: LibreScreen never uses the network, spawns processes or loads code at run time (see SECURITY.md).
+      options:
+        - label: This works entirely on the Mac, without a network connection.
+          required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Would you like to work on it?
+      options:
+        - label: I can send a pull request.
