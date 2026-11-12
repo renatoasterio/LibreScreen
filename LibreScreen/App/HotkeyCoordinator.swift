@@ -29,10 +29,13 @@ final class HotkeyCoordinator {
         apply()
     }
 
+    /// Re-registers observation after every change (the `withObservationTracking` callback fires once).
+    /// `SettingsStore` keeps `onChange` alive until the next change, so it has to capture `self` weakly as
+    /// well: a strong capture there would close the cycle self → settings → onChange → self.
     private func observe() {
         withObservationTracking {
             _ = settings.settings.hotkeys
-        } onChange: {
+        } onChange: { [weak self] in
             Task { @MainActor [weak self] in
                 self?.observe()
                 self?.apply()

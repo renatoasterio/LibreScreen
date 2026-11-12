@@ -65,6 +65,9 @@ final class CameraSessionCoordinator {
     }
 
     /// Re-registers observation after every change (the `withObservationTracking` callback fires once).
+    /// The observed objects keep `onChange` alive until the next change, so it has to capture `self` weakly
+    /// as well: a strong capture there would close the cycle self → settings → onChange → self and let
+    /// `hub` and `recording`, which this coordinator only references `unowned`, keep it alive.
     private func observe() {
         withObservationTracking {
             _ = settings.settings.camera
@@ -72,7 +75,7 @@ final class CameraSessionCoordinator {
             _ = hub.mode
             _ = recording.currentSource
             _ = recording.phase
-        } onChange: {
+        } onChange: { [weak self] in
             Task { @MainActor [weak self] in
                 self?.observe()
                 self?.apply()
