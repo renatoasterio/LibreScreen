@@ -99,11 +99,17 @@ Quer só dar uma olhada antes? `make run` compila em Debug e abre o aplicativo, 
 
 ### Download
 
-Ainda não há download pronto. A primeira versão marcada será publicada em
-[Releases](https://github.com/renatoasterio/LibreScreen/releases); use **Watch › Custom › Releases** para ser avisado
-quando sair. Os builds têm assinatura ad-hoc, sem notarização, então o macOS pede que você confirme uma cópia baixada
-uma vez em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**. Aplicativos que você mesmo compila
-abrem normalmente.
+Baixe o `LibreScreen-<versão>.zip` da
+[versão mais recente](https://github.com/renatoasterio/LibreScreen/releases/latest), descompacte e mova o
+**LibreScreen.app** para a pasta Aplicativos. Requer macOS 15 ou posterior e um Mac com Apple Silicon.
+
+Os builds têm assinatura ad-hoc, sem notarização, então o macOS bloqueia uma cópia baixada na primeira vez que você a
+abre. Libere-a uma vez em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**; depois disso ela abre
+normalmente. Aplicativos que você mesmo compila não precisam desse passo.
+
+Cada versão também traz um arquivo `.sha256`, para você conferir o download com
+`shasum -a 256 -c LibreScreen-<versão>.zip.sha256`. Para ser avisado de novas versões, use
+**Watch › Custom › Releases** na página do repositório.
 
 ### Primeira execução
 
@@ -188,8 +194,10 @@ estados da gravação, espaços de coordenadas e o checklist de verificação ma
 
 ## Estado do projeto
 
-O LibreScreen está na versão 0.1.0: o gravador, a bolha da câmera, as capturas, o editor e os ajustes estão no lugar,
-e esta é a primeira versão pública, então espere arestas. Se algo quebrar, uma
+O LibreScreen está na versão 0.1.0, a primeira versão pública, e você pode
+[baixá-la](https://github.com/renatoasterio/LibreScreen/releases/latest) ou compilar por conta própria. O gravador, a
+bolha da câmera, as capturas, o editor e os ajustes estão no lugar, mas é uma primeira versão, então espere arestas.
+Se algo quebrar, uma
 [issue](https://github.com/renatoasterio/LibreScreen/issues/new/choose) com a versão do macOS e o modelo do Mac é a
 coisa mais útil que você pode enviar. As mudanças ficam registradas no [CHANGELOG.md](CHANGELOG.md).
 

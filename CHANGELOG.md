@@ -4,7 +4,7 @@ All notable changes to LibreScreen are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-11-11
 
 First public version.
 
@@ -29,4 +29,4 @@ First public version.
 - **Tooling**: `Makefile`, XcodeGen project, CI (format, lint, build, tests, safety audit), release script and the
   `code-audit` skill.
 
-[0.1.0]: https://github.com/renatoasterio/LibreScreen/commits/main
+[0.1.0]: https://github.com/renatoasterio/LibreScreen/releases/tag/v0.1.0

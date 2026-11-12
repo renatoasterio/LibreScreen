@@ -99,10 +99,17 @@ target.
 
 ### Download
 
-There is no pre-built download yet. The first tagged version will be published under
-[Releases](https://github.com/renatoasterio/LibreScreen/releases); use **Watch › Custom › Releases** to be told when it
-lands. Builds are ad-hoc signed rather than notarized, so macOS asks you to confirm a downloaded copy once in
-**System Settings › Privacy & Security › Open Anyway**. Apps you build yourself open normally.
+Download `LibreScreen-<version>.zip` from the
+[latest release](https://github.com/renatoasterio/LibreScreen/releases/latest), unzip it and move **LibreScreen.app**
+to your Applications folder. It needs macOS 15 or later and an Apple Silicon Mac.
+
+Builds are ad-hoc signed rather than notarized, so macOS blocks a downloaded copy the first time you open it. Allow it
+once in **System Settings › Privacy & Security › Open Anyway**; after that it opens normally. Apps you build yourself
+need no such step.
+
+Each release also carries a `.sha256` file, so you can check the download with
+`shasum -a 256 -c LibreScreen-<version>.zip.sha256`. To be told about new versions, use
+**Watch › Custom › Releases** on the repository page.
 
 ### First launch
 
@@ -184,8 +191,10 @@ coordinate spaces and the manual verification checklist.
 
 ## Project status
 
-LibreScreen is at version 0.1.0: the recorder, the camera bubble, screenshots, the editor and the settings are in
-place, and this is the first public version, so expect rough edges. If something breaks, an
+LibreScreen is at version 0.1.0, the first public release, and you can
+[download it](https://github.com/renatoasterio/LibreScreen/releases/latest) or build it yourself. The recorder, the
+camera bubble, screenshots, the editor and the settings are in place, but it is a first version, so expect rough
+edges. If something breaks, an
 [issue](https://github.com/renatoasterio/LibreScreen/issues/new/choose) with your macOS version and Mac model is the
 most useful thing you can send. Changes are tracked in [CHANGELOG.md](CHANGELOG.md).
 
