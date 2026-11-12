@@ -5,7 +5,9 @@
 #   make install    Release build copied to /Applications
 # Run `make help` for the full list.
 
-SHELL := /bin/bash
+# pipefail makes a recipe fail when `xcodebuild` fails, even though its output is piped into a formatter. It is
+# passed through SHELL because macOS ships GNU Make 3.81, which silently ignores `.SHELLFLAGS` (added in 3.82).
+SHELL := /bin/bash -o pipefail
 .DEFAULT_GOAL := help
 
 PROJECT      := LibreScreen.xcodeproj
@@ -51,8 +53,10 @@ run: build ## Build and launch the app
 stop: ## Quit a running LibreScreen
 	@pkill -x LibreScreen 2>/dev/null && echo "LibreScreen stopped" || echo "LibreScreen is not running"
 
+# `|| true` keeps the fallback filter from failing the target when it matches nothing: with pipefail the exit
+# status must come from `xcodebuild` alone.
 test: $(PROJECT)/project.pbxproj ## Run the unit tests
-	$(XCODEBUILD) test | $(if $(shell command -v xcbeautify),xcbeautify,grep -E "Test run with|✘|error:|passed|failed")
+	$(XCODEBUILD) test | $(if $(shell command -v xcbeautify),xcbeautify,{ grep -E "Test run with|✘|error:|passed|failed" || true; })
 
 lint: ## SwiftFormat (lint mode) + SwiftLint strict
 	swiftformat --lint .
