@@ -73,12 +73,16 @@ snapshot: build ## Render every screen to PNG in $(DERIVED_DATA)/snapshots (Debu
 	caffeinate -d -u -i "$(BIN)" -snapshot "$(DERIVED_DATA)/snapshots"
 	@echo "Snapshots in $(DERIVED_DATA)/snapshots"; open "$(DERIVED_DATA)/snapshots"
 
+# CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO stops Xcode from adding the debug-only get-task-allow entitlement, which
+# would let any local process attach to the shipped app. `ditto --norsrc` keeps extended attributes out of the
+# archive: with them, `unzip` writes ._* files into the bundle and the code signature no longer verifies. The
+# checksum is taken inside dist/ so `shasum -a 256 -c` works next to a downloaded zip.
 release: $(PROJECT)/project.pbxproj ## Release build, ad-hoc signed, zipped into dist/ with a SHA-256
-	$(XCODEBUILD) -configuration Release MARKETING_VERSION="$(VERSION)" build | $(if $(shell command -v xcbeautify),xcbeautify,cat)
+	$(XCODEBUILD) -configuration Release MARKETING_VERSION="$(VERSION)" CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO build | $(if $(shell command -v xcbeautify),xcbeautify,cat)
 	@mkdir -p $(DIST)
-	@rm -f "$(ZIP)"
-	ditto -c -k --keepParent "$(DERIVED_DATA)/Build/Products/Release/LibreScreen.app" "$(ZIP)"
-	shasum -a 256 "$(ZIP)" | tee "$(ZIP).sha256"
+	@rm -f "$(ZIP)" "$(ZIP).sha256"
+	ditto -c -k --norsrc --keepParent "$(DERIVED_DATA)/Build/Products/Release/LibreScreen.app" "$(ZIP)"
+	cd $(DIST) && shasum -a 256 "$(notdir $(ZIP))" | tee "$(notdir $(ZIP)).sha256"
 	@echo "Release archive: $(ZIP)"
 	@echo "The app is ad-hoc signed: a downloaded copy is allowed once in System Settings › Privacy & Security › Open Anyway."
 
